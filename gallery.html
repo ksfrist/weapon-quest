@@ -6,228 +6,65 @@
 <title>⚔️ 武器图鉴</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#1a1a2e;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:20px;max-width:640px;margin:0 auto;padding-bottom:80px}
-h1{text-align:center;font-size:20px;color:#ffd700;margin-bottom:20px;padding-top:10px}
-.tier{margin-bottom:28px}
-.tier-header{
-  display:flex;align-items:center;gap:10px;padding:10px 14px;
-  border-radius:10px;margin-bottom:12px;font-weight:700;font-size:14px;
+body{background:#1a1a2e;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:16px;max-width:640px;margin:0 auto;padding-bottom:70px}
+h1{text-align:center;font-size:20px;color:#ffd700;margin:12px 0 16px}
+.tier{margin-bottom:24px}
+.tier-head{
+  display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;
+  margin-bottom:10px;font-size:13px;font-weight:700;
 }
-.tier-icon{font-size:22px}
-.tier-name{font-size:14px}
-.tier-range{font-size:11px;opacity:0.7;margin-left:auto}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tier-icon{font-size:20px}
+.tier-range{font-size:10px;opacity:0.7;margin-left:auto;font-weight:400}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
 @media(min-width:480px){.grid{grid-template-columns:repeat(5,1fr)}}
 .card{
-  background:#1e1e3f;border:1px solid #3a3a6a;border-radius:12px;
-  padding:8px 4px;text-align:center;min-height:100px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
-  transition:transform 0.2s;
+  background:#1e1e3f;border-radius:10px;padding:6px;
+  text-align:center;min-height:108px;display:flex;flex-direction:column;
+  align-items:center;gap:3px;transition:transform 0.15s;cursor:default;
 }
 .card:active{transform:scale(0.95)}
-.card-name{font-size:9px;color:#b0b0b0;line-height:1.3;max-width:100%;overflow:hidden}
-.card-lv{font-size:8px;color:#555;margin-top:auto}
-.card:hover .card-name{color:#fff}
-.tier-1 .card{border-color:#4a5568}
-.tier-2 .card{border-color:#d97706}
-.tier-3 .card{border-color:#dc2626}
-.tier-4 .card{border-color:#0ea5e9}
-.tier-5 .card{border-color:#a855f7}
-.tier-6 .card{border-color:#1f2937;border-color:#374151}
-.tier-7 .card{border-color:#f59e0b}
-.tier-8 .card{border-color:#6366f1}
-.tier-9 .card{border-color:#0891b2}
-.tier-10 .card{border-color:#ea580c;border-width:2px;background:linear-gradient(135deg,#1e1e3f,#2d1a00)}
-.bottom-bar{
+.card-name{font-size:8px;color:#b0b0b0;line-height:1.3;max-width:100%;overflow:hidden;min-height:16px}
+.card-lv{font-size:7px;color:#555;margin-top:auto}
+.canvas-wrap{border-radius:4px;overflow:hidden;background:#0a0a15}
+canvas{display:block;image-rendering:pixelated}
+.fixed-bar{
   position:fixed;bottom:0;left:0;right:0;background:#16213e;
-  border-top:1px solid #3a3a6a;padding:12px 20px;
-  display:flex;justify-content:center;gap:20px;font-size:12px;color:#b0b0b0;
+  border-top:1px solid #3a3a6a;padding:10px 20px;
+  display:flex;justify-content:center;gap:16px;font-size:11px;color:#888;
   max-width:640px;margin:0 auto;
 }
-.bottom-bar span{display:flex;align-items:center;gap:4px}
 </style>
 </head>
 <body>
 <h1>⚔️ 武器收集大作战 · 完整图鉴</h1>
 <div id="app"></div>
-<div class="bottom-bar">
-  <span>🔫 起始之枪</span><span>⚡ 能量之枪</span><span>🔥 烈焰之枪</span><span>❄️ 冰霜之枪</span><span>💥 激光之枪</span>
+<div class="fixed-bar">
+  <span>🔫 起始</span><span>⚡ 能量</span><span>🔥 烈焰</span><span>❄ 冰霜</span><span>💥 激光</span><span>🌑 暗黑</span><span>⭐ 神圣</span><span>🌌 宇宙</span><span>💎 终极</span><span>👑 创世</span>
 </div>
 <script>
-var TIERS=[
-  {t:1,n:"起始之枪",e:"🔫",c:"#4a5568",gc:"#9ca3af"},
-  {t:2,n:"能量之枪",e:"⚡",c:"#d97706",gc:"#fbbf24"},
-  {t:3,n:"烈焰之枪",e:"🔥",c:"#dc2626",gc:"#f97316"},
-  {t:4,n:"冰霜之枪",e:"❄",c:"#0ea5e9",gc:"#7dd3fc"},
-  {t:5,n:"激光之枪",e:"💥",c:"#a855f7",gc:"#e879f9"},
-  {t:6,n:"暗黑之枪",e:"🌑",c:"#374151",gc:"#6b7280"},
-  {t:7,n:"神圣之枪",e:"⭐",c:"#f59e0b",gc:"#fcd34d"},
-  {t:8,n:"宇宙之枪",e:"🌌",c:"#6366f1",gc:"#a5b4fc"},
-  {t:9,n:"终极之枪",e:"💎",c:"#0891b2",gc:"#67e8f9"},
-  {t:10,n:"创世之枪",e:"👑",c:"#ea580c",gc:"#fb923c"},
+// ─── Palette ───────────────────────────────────────────────────────────────
+var PALETTES = [
+  // Tier 1 - Steel grey
+  ['#6b7280','#4b5563','#9ca3af','#d1d5db','#374151','#1f2937','#f3f4f6','#e5e7eb'],
+  // Tier 2 - Electric yellow
+  ['#fbbf24','#f59e0b','#d97706','#92400e','#fef3c7','#fde68a','#fcd34d','#b45309'],
+  // Tier 3 - Fire red
+  ['#ef4444','#dc2626','#f87171','#991b1b','#fca5a5','#7f1d1d','#b91c1c','#fecaca'],
+  // Tier 4 - Ice blue
+  ['#0ea5e9','#0284c7','#38bdf8','#0369a1','#bae6fd','#7dd3fc','#0c4a6e','#e0f2fe'],
+  // Tier 5 - Laser purple
+  ['#a855f7','#9333ea','#c084fc','#7e22ce','#e9d5ff','#d8b4fe','#6b21a8','#f3e8ff'],
+  // Tier 6 - Void dark
+  ['#374151','#1f2937','#6b7280','#111827','#9ca3af','#4b5563','#030712','#d1d5db'],
+  // Tier 7 - Holy gold
+  ['#f59e0b','#d97706','#fbbf24','#b45309','#fef3c7','#fde68a','#78350f','#92400e'],
+  // Tier 8 - Cosmic indigo
+  ['#6366f1','#4f46e5','#818cf8','#4338ca','#c7d2fe','#a5b4fc','#312e81','#e0e7ff'],
+  // Tier 9 - Crystal cyan
+  ['#06b6d4','#0891b2','#22d3ee','#0e7490','#cffafe','#67e8f9','#155e75','#ecfeff'],
+  // Tier 10 - Cosmic orange
+  ['#ea580c','#c2410c','#f97316','#9a3412','#fed7aa','#fdba74','#431407','#fff7ed'],
 ];
-var CLASSES=[
-  {c:"手枪",barrel:1,scope:0,stock:0},
-  {c:"步枪",barrel:2,scope:1,stock:1},
-  {c:"冲锋枪",barrel:1,scope:0,stock:0,mag:1},
-  {c:"猎枪",barrel:3,scope:0,stock:2},
-  {c:"光枪",barrel:1,scope:2,stock:0,emissive:1},
-  {c:"魔枪",barrel:2,scope:1,stock:1,magic:1},
-  {c:"光棱枪",barrel:3,scope:1,stock:2,blade:1},
-  {c:"射线枪",barrel:2,scope:2,stock:1,ray:1},
-  {c:"裁决",barrel:1,scope:0,stock:3,special:1},
-  {c:"神杖",barrel:0,scope:0,stock:3,orb:1},
-];
-
-function genSvg(lv, tier, cls) {
-  var t = TIERS[tier-1];
-  var w = 60, h = 52;
-  var c = t.c, gc = t.gc;
-  var angle = -15 + (lv%5)*7;
-  var hasGlow = tier>=3;
-  var hasMagic = cls.magic;
-  var isLaser = tier==5;
-  var isOrb = cls.orb;
-  var isBlade = cls.blade;
-  var isRay = cls.ray;
-  var isSpecial = cls.special;
-  var isEnergy = tier==2;
-  var intensity = 0.4 + (lv/100)*0.6;
-
-  var defs = "";
-  if(hasGlow){
-    var glowC = c;
-    defs += '<filter id="g'+lv+'" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
-    defs += '<filter id="s'+lv+'" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
-  }
-  if(isLaser){
-    defs += '<filter id="l'+lv+'" x="-100%" y="-50%" width="300%" height="200%"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
-  }
-
-  var shapes = [];
-  var style = 'fill:none;stroke-linecap:round;stroke-linejoin:round';
-
-  // === GLOW AURA ===
-  if(hasGlow){
-    shapes.push('<circle cx="30" cy="26" r="24" fill="'+c+'" opacity="'+(0.07*intensity)+'" />');
-  }
-
-  // === SPECIAL WEAPONS ===
-  if(isOrb){
-    // Magic orb weapon
-    shapes.push('<circle cx="30" cy="20" r="8" fill="'+c+'" opacity="0.9" filter="url(#g'+lv+')" />');
-    shapes.push('<circle cx="30" cy="20" r="5" fill="'+gc+'" opacity="0.8" />');
-    shapes.push('<line x1="30" y1="28" x2="30" y2="45" stroke="'+c+'" stroke-width="3" '+style+' />');
-    shapes.push('<line x1="30" y1="45" x2="24" y2="52" stroke="'+c+'" stroke-width="2" '+style+' />');
-    shapes.push('<line x1="30" y1="45" x2="36" y2="52" stroke="'+c+'" stroke-width="2" '+style+' />');
-    shapes.push('<line x1="22" y1="16" x2="30" y2="20" stroke="'+gc+'" stroke-width="1.5" opacity="0.7" />');
-    shapes.push('<line x1="38" y1="16" x2="30" y2="20" stroke="'+gc+'" stroke-width="1.5" opacity="0.7" />');
-    shapes.push('<line x1="26" y1="12" x2="30" y2="20" stroke="'+gc+'" stroke-width="1.5" opacity="0.7" />');
-    shapes.push('<line x1="34" y1="12" x2="30" y2="20" stroke="'+gc+'" stroke-width="1.5" opacity="0.7" />');
-  } else if(isBlade){
-    // Blade weapon
-    shapes.push('<line x1="14" y1="42" x2="48" y2="14" stroke="'+c+'" stroke-width="4" '+style+' filter="url(#s'+lv+')" />');
-    shapes.push('<line x1="14" y1="42" x2="48" y2="14" stroke="'+gc+'" stroke-width="1.5" '+style+' opacity="0.5" />');
-    shapes.push('<rect x="11" y="38" width="8" height="8" rx="1" fill="'+c+'" transform="rotate(-45 15 42)" />');
-    shapes.push('<line x1="12" y1="44" x2="18" y2="38" stroke="'+gc+'" stroke-width="1" />');
-    shapes.push('<line x1="15" y1="44" x2="21" y2="38" stroke="'+gc+'" stroke-width="1" />');
-  } else if(isRay){
-    // Ray gun
-    var rayColors = ['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#c77dff'];
-    var rc = rayColors[(lv-1)%5];
-    shapes.push('<rect x="12" y="22" width="30" height="14" rx="3" fill="'+c+'" opacity="0.8" filter="url(#g'+lv+')" />');
-    shapes.push('<rect x="42" y="24" width="14" height="10" rx="2" fill="'+c+'" opacity="0.6" />');
-    shapes.push('<rect x="14" y="24" width="26" height="4" rx="2" fill="'+gc+'" opacity="0.6" />');
-    shapes.push('<circle cx="20" cy="26" r="2" fill="'+rc+'" />');
-    shapes.push('<line x1="48" y1="29" x2="58" y2="29" stroke="'+rc+'" stroke-width="2" opacity="0.9" filter="url(#l'+lv+')" />');
-    shapes.push('<rect x="8" y="25" width="6" height="8" rx="1" fill="'+c+'" opacity="0.7" />');
-  } else if(isSpecial){
-    // Holy/special judgement weapon - big ornate cross
-    shapes.push('<line x1="30" y1="6" x2="30" y2="46" stroke="'+gc+'" stroke-width="5" '+style+' filter="url(#g'+lv+')" />');
-    shapes.push('<line x1="16" y1="18" x2="44" y2="18" stroke="'+gc+'" stroke-width="5" '+style+' />');
-    shapes.push('<line x1="30" y1="6" x2="30" y2="46" stroke="#fff" stroke-width="2" '+style+' opacity="0.4" />');
-    shapes.push('<line x1="16" y1="18" x2="44" y2="18" stroke="#fff" stroke-width="2" '+style+' opacity="0.4" />');
-    shapes.push('<circle cx="30" cy="18" r="3" fill="'+gc+'" opacity="0.9" />');
-  } else {
-    // === REGULAR GUNS ===
-    var barrelLen = 10 + cls.barrel*6 + (lv%3)*3;
-    var hasScope = cls.scope;
-    var hasMag = cls.mag;
-    var hasStock = cls.stock;
-
-    // Barrel
-    var bx=48, by=28-bx/20, bw=barrelLen, bh=4;
-    shapes.push('<rect x="'+bx+'" y="'+by+'" width="'+bw+'" height="'+bh+'" rx="1" fill="'+c+'" filter="url(#s'+lv+')" />');
-
-    // Scope / rail
-    if(hasScope>0){
-      var sx=bx-2+Math.floor(bw/2)-3;
-      shapes.push('<rect x="'+sx+'" y="'+(by-5-hasScope*2)+'" width="6" height="'+(5+hasScope*2)+'" rx="1" fill="'+gc+'" opacity="0.9" />');
-      shapes.push('<line x1="'+(sx+3)+'" y1="'+(by-5-hasScope*2)+'" x2="'+(sx+3)+'" y2="'+(by-8-hasScope*3)+'" stroke="'+gc+'" stroke-width="1.5" />');
-      shapes.push('<circle cx="'+(sx+3)+'" cy="'+(by-8-hasScope*3)+'" r="1.5" fill="'+gc+'" />');
-    }
-
-    // Body/receiver
-    var bodyH = 10 + Math.floor(lv/20)*2;
-    var bodyY = 28 - bodyH/2;
-    shapes.push('<rect x="22" y="'+bodyY+'" width="28" height="'+bodyH+'" rx="2" fill="'+c+'" />');
-    shapes.push('<rect x="24" y="'+(bodyY+2)+'" width="24" height="'+(bodyH-4)+'" rx="1" fill="'+gc+'" opacity="0.3" />');
-
-    // Trigger guard
-    shapes.push('<path d="M 34,'+(bodyY+bodyH)+' Q 38,'+(bodyY+bodyH+6)+' 42,'+(bodyY+bodyH)+'" stroke="'+c+'" stroke-width="1.5" fill="none" />');
-    shapes.push('<line x1="38" y1="'+(bodyY+bodyH)+'" x2="38" y2="'+(bodyY+bodyH+5)+'" stroke="'+gc+'" stroke-width="1" />');
-
-    // Magazine
-    if(hasMag){
-      shapes.push('<rect x="30" y="'+(bodyY+bodyH)+'" width="8" height="'+(6+lv%3*2)+'" rx="1" fill="'+c+'" opacity="0.8" />');
-      shapes.push('<rect x="31" y="'+(bodyY+bodyH+1)+'" width="6" height="2" fill="'+gc+'" opacity="0.5" />');
-    }
-
-    // Stock
-    if(hasStock==1){
-      shapes.push('<path d="M 22,'+(bodyY+2)+' L 14,'+(bodyY+bodyH/2)+' L 14,'+(bodyY+bodyH-2)+' L 22,'+(bodyY+bodyH-2)+'" fill="'+c+'" opacity="0.9" />');
-    } else if(hasStock>=2){
-      shapes.push('<path d="M 22,'+(bodyY+2)+' L 12,'+(bodyY+4)+' L 10,'+(bodyY+bodyH-2)+' L 22,'+(bodyY+bodyH-2)+'" fill="'+c+'" />');
-      shapes.push('<line x1="14" y1="'+(bodyY+bodyH/2)+'" x2="12" y2="'+(bodyY+bodyH/2)+'" stroke="'+gc+'" stroke-width="1" opacity="0.6" />');
-    }
-
-    // Grip
-    shapes.push('<path d="M 36,'+(bodyY+bodyH-1)+' L 38,'+(bodyY+bodyH+8)+' L 43,'+(bodyY+bodyH+8)+' L 43,'+(bodyY+bodyH)+'" fill="'+c+'" opacity="0.9" />');
-
-    // Energy/laser glow on barrel tip
-    if(tier>=2||isEnergy){
-      shapes.push('<circle cx="'+(bx+bw)+'" cy="'+(by+bh/2)+'" r="3" fill="'+gc+'" opacity="'+(0.5+intensity*0.5)+'" filter="url(#s'+lv+')" />');
-      if(isEnergy){
-        shapes.push('<circle cx="'+(bx+bw)+'" cy="'+(by+bh/2)+'" r="1.5" fill="#fff" opacity="0.9" />');
-      }
-    }
-
-    // Tier-specific accents
-    if(tier==3){ // Fire
-      shapes.push('<path d="M'+(bx+bw-2)+','+(by-3)+' Q'+(bx+bw+2)+','+(by-8)+' '+(bx+bw+4)+','+(by-2)+'" stroke="#ff6b35" stroke-width="2" fill="none" opacity="0.8" />');
-    }
-    if(tier==4){ // Ice
-      shapes.push('<line x1="'+(bx+bw)+'" y1="'+(by-4)+'" x2="'+(bx+bw+3)+'" y2="'+(by-6)+'" stroke="#a5f3fc" stroke-width="1.5" />');
-      shapes.push('<line x1="'+(bx+bw+2)+'" y1="'+(by-2)+'" x2="'+(bx+bw+5)+'" y2="'+(by-4)+'" stroke="#a5f3fc" stroke-width="1" />');
-    }
-  }
-
-  // Level number
-  shapes.push('<text x="5" y="10" font-size="8" fill="'+gc+'" font-family="sans-serif" opacity="0.6">'+lv+'</text>');
-
-  // Rarity stars
-  var starY = 48;
-  var stars = Math.ceil(lv/20);
-  for(var i=0;i<stars;i++){
-    shapes.push('<text x="'+(20+i*5)+'" y="'+starY+'" font-size="5" fill="'+gc+'" opacity="0.7">★</text>');
-  }
-
-  var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 52" width="52" height="44">' +
-    (defs?'<defs>'+defs+'</defs>':'') +
-    shapes.join('') +
-    '</svg>';
-  return svg;
-}
 
 var NAMES=[
   ["玩具水枪","小弹弓枪","橡皮筋枪","软弹枪","木制手枪","塑料步枪","弹簧手枪","水弹枪","儿童猎枪","泡沫冲锋枪"],
@@ -242,21 +79,401 @@ var NAMES=[
   ["起源之枪","原初之光","万物之枪","永恒星杖","宇宙法则枪","时间领主","命运裁决","天道之枪","万物归一","创世神枪"],
 ];
 
+// ─── Seeded random ────────────────────────────────────────────────────────
+function seededRand(seed) {
+  var s = seed;
+  return function() {
+    s = (s * 16807 + 0) % 2147483647;
+    return (s - 1) / 2147483646;
+  };
+}
+
+function nameSeed(name) {
+  var h = 0;
+  for(var i=0;i<name.length;i++){
+    h = ((h<<5) - h + name.charCodeAt(i)) | 0;
+  }
+  return Math.abs(h);
+}
+
+// ─── Pixel drawing helpers ──────────────────────────────────────────────────
+function drawPixel(c, x, y, color) {
+  c.fillStyle = color;
+  c.fillRect(x*4, y*4, 4, 4);
+}
+
+function drawRect(c, px, py, pw, ph, color) {
+  c.fillStyle = color;
+  c.fillRect(px*4, py*4, pw*4, ph*4);
+}
+
+function drawHLine(c, x, y, len, color) {
+  c.fillStyle = color;
+  c.fillRect(x*4, y*4, len*4, 4);
+}
+
+function drawVLine(c, x, y, len, color) {
+  c.fillStyle = color;
+  c.fillRect(x*4, y*4, 4, len*4);
+}
+
+function darken(color, amount) {
+  // Simple darken: parse hex
+  var r = parseInt(color.slice(1,3),16);
+  var g = parseInt(color.slice(3,5),16);
+  var b = parseInt(color.slice(5,7),16);
+  r = Math.max(0, Math.floor(r * (1-amount)));
+  g = Math.max(0, Math.floor(g * (1-amount)));
+  b = Math.max(0, Math.floor(b * (1-amount)));
+  return '#'+r.toString(16).padStart(2,'0')+g.toString(16).padStart(2,'0')+b.toString(16).padStart(2,'0');
+}
+
+function lighten(color, amount) {
+  var r = parseInt(color.slice(1,3),16);
+  var g = parseInt(color.slice(3,5),16);
+  var b = parseInt(color.slice(5,7),16);
+  r = Math.min(255, Math.floor(r + (255-r)*amount));
+  g = Math.min(255, Math.floor(g + (255-g)*amount));
+  b = Math.min(255, Math.floor(b + (255-b)*amount));
+  return '#'+r.toString(16).padStart(2,'0')+g.toString(16).padStart(2,'0')+b.toString(16).padStart(2,'0');
+}
+
+// ─── Unique weapon icon generator ───────────────────────────────────────────
+function drawWeaponIcon(canvas, lv, tier, name, rank) {
+  var SZ = 12; // canvas is 12x12 "pixels", each drawn as 4x4 real pixels = 48x48 canvas
+  canvas.width = SZ*4;
+  canvas.height = SZ*4;
+  var c = canvas.getContext('2d');
+  c.imageSmoothingEnabled = false;
+  var rng = seededRand(nameSeed(name) + lv * 997 + tier * 31337);
+
+  var pal = PALETTES[tier-1];
+  var main = pal[0];
+  var mid = pal[1];
+  var light = pal[2];
+  var dark = pal[3];
+  var hl = pal[4];
+  var shadow = pal[5];
+
+  // Clear
+  c.fillStyle = '#0a0a15';
+  c.fillRect(0,0,canvas.width,canvas.height);
+
+  // Determine weapon "class" by name chars
+  var classIdx = Math.floor(rng() * 6);
+
+  // ── TYPE 0: Diamond gem ────────────────────────────────────────────────
+  if (classIdx === 0) {
+    var cx=5, cy=5;
+    for(var y=0;y<SZ;y++){
+      for(var x=0;x<SZ;x++){
+        var d = Math.abs(x-cx)+Math.abs(y-cy);
+        if(d<=5){
+          var col = d<=1 ? hl : d<=3 ? main : d<=4 ? mid : dark;
+          drawPixel(c,x,y,col);
+        }
+      }
+    }
+    // Inner highlight
+    drawPixel(c,cx,cy-2,light);
+    drawPixel(c,cx-1,cy-1,light);
+    drawPixel(c,cx+1,cy-1,light);
+    // Corner cuts
+    var corners = [[1,1],[1,10],[10,1],[10,10]];
+    corners.forEach(function(pt){ drawPixel(c,pt[0],pt[1],'#0a0a15'); });
+    // Border sparkle
+    drawPixel(c,2,5,lighten(light,0.5));
+    drawPixel(c,9,5,lighten(light,0.5));
+    drawPixel(c,5,2,lighten(light,0.5));
+    drawPixel(c,5,9,lighten(light,0.5));
+    // Level stars
+    var starX = 1;
+    for(var si=0;si<Math.min(Math.floor(lv/20)+1,3);si++){
+      drawPixel(c,starX+si,11,'#ffd700');
+    }
+    // Border
+    drawHLine(c,2,0,8,dark);
+    drawHLine(c,0,2,1,dark);
+    drawHLine(c,11,2,1,dark);
+    drawVLine(c,0,2,1,dark);
+    drawVLine(c,11,2,1,dark);
+    return;
+  }
+
+  // ── TYPE 1: Sword shape ────────────────────────────────────────────────
+  if (classIdx === 1) {
+    // Blade
+    for(var y=0;y<9;y++){
+      var w = y<2 ? 2 : y<5 ? 3 : y<7 ? 2 : 1;
+      var col = y<4 ? main : y<7 ? mid : dark;
+      for(var x=5-w;x<=5+w;x++) drawPixel(c,x,y,col);
+    }
+    // Guard
+    drawHLine(c,2,9,8,light);
+    drawHLine(c,3,10,6,mid);
+    // Handle
+    drawVLine(c,5,11,1,main);
+    drawPixel(c,5,11,dark);
+    // Fullers (grooves)
+    if(lv%3!==0){ drawVLine(c,5,1,6,lighten(light,0.3)); }
+    // Gem in guard
+    if(lv%2===0){ drawPixel(c,5,9,hl); drawPixel(c,4,9,hl); }
+    // Pommel
+    drawRect(c,4,12,4,1,main);
+    drawPixel(c,4,12,light);
+    drawPixel(c,7,12,dark);
+    // Edge highlight
+    for(var y=1;y<8;y+=2){
+      var ex = 5+Math.floor((y<4?1:0)+(y<2?1:0));
+      drawPixel(c,ex,y,light);
+    }
+    // Level indicator dots
+    var dots = Math.floor((lv-1)/33);
+    for(var di=0;di<dots;di++){
+      drawPixel(c,2+di*2,2,light);
+    }
+    return;
+  }
+
+  // ── TYPE 2: Shield / hexagon ─────────────────────────────────────────
+  if (classIdx === 2) {
+    var pts = [[5,0],[9,2],[9,7],[7,11],[3,11],[1,7],[1,2]];
+    var on = function(x,y){
+      // Check if point is inside hexagon-ish shape
+      var inUpper = y<=5 ? (x>=1 && x<=9 && Math.abs(x-5)+y<=6) : (x>=1 && x<=9 && Math.abs(x-5)+(11-y)<=6);
+      var inShield = y<=2 ? (x>=3&&x<=7&&y>=0) : inUpper || (x>=1&&x<=3&&y>=5&&y<=7) || (x>=9&&x<=11&&y>=5&&y<=7) || (x>=3&&x<=7&&y>=9&&y<=11);
+      return inUpper;
+    };
+    for(var y2=0;y2<SZ;y2++){
+      for(var x2=0;x2<SZ;x2++){
+        if(on(x2,y2)){
+          var distC = Math.sqrt((x2-5)*(x2-5)+(y2-5)*(y2-5));
+          var col = distC<2?hl:distC<4?main:distC<5?mid:dark;
+          drawPixel(c,x2,y2,col);
+        }
+      }
+    }
+    // Inner emblem - unique based on name seed
+    var emx = 3 + Math.floor(rng()*6);
+    var emy = 3 + Math.floor(rng()*6);
+    for(var dy=-1;dy<=1;dy++){
+      for(var dx=-1;dx<=1;dx++){
+        if(Math.abs(dx)+Math.abs(dy)<=1){
+          drawPixel(c,emx+dx,emy+dy,lighten(light,0.4));
+        }
+      }
+    }
+    // Border ring
+    drawHLine(c,2,0,8,dark);
+    drawHLine(c,1,11,8,dark);
+    // Corner rivets
+    [[1,1],[9,1],[1,10],[9,10]].forEach(function(pt){
+      drawPixel(c,pt[0],pt[1],light);
+    });
+    // Level bar at bottom
+    var filled = Math.ceil(lv/10);
+    for(var bi=0;bi<filled;bi++){
+      drawPixel(c,1+bi,11,light);
+    }
+    return;
+  }
+
+  // ── TYPE 3: Spiral / energy core ─────────────────────────────────────
+  if (classIdx === 3) {
+    // Draw spiral arms
+    for(var angle2=0;angle2<lv*36+360;angle2+=15){
+      var rad = angle2 * Math.PI / 180;
+      var arm = Math.floor(angle2 / (lv*3+60));
+      var arms = 3 + tier%3;
+      for(var r2=1;r2<5;r2++){
+        var ax = 5 + Math.floor(Math.cos(rad * (arm+1)) * r2);
+        var ay = 5 + Math.floor(Math.sin(rad * (arm+1)) * r2);
+        if(ax>=0&&ax<SZ&&ay>=0&&ay<SZ){
+          var col = r2<2?hl:r2<3?main:mid;
+          drawPixel(c,ax,ay,col);
+        }
+      }
+    }
+    // Center glow
+    for(var cy2=-1;cy2<=1;cy2++){
+      for(var cx2=-1;cx2<=1;cx2++){
+        drawPixel(c,5+cx2,5+cy2,hl);
+      }
+    }
+    // Core ring
+    for(var ri=0;ri<8;ri++){
+      var r3 = 4;
+      var rx = 5 + Math.floor(Math.cos(ri*Math.PI/4)*r3);
+      var ry = 5 + Math.floor(Math.sin(ri*Math.PI/4)*r3);
+      drawPixel(c,rx,ry,main);
+    }
+    // Pulsing rings
+    var ringR = (lv+5)%5;
+    for(var ri2=0;ri2<8;ri2++){
+      var r4 = ringR;
+      var rx2 = 5 + Math.floor(Math.cos(ri2*Math.PI/4)*r4);
+      var ry2 = 5 + Math.floor(Math.sin(ri2*Math.PI/4)*r4);
+      if(rx2>=0&&rx2<SZ&&ry2>=0&&ry2<SZ){
+        drawPixel(c,rx2,ry2,lighten(light,0.5));
+      }
+    }
+    // Corner decorations
+    [[0,0],[11,0],[0,11],[11,11]].forEach(function(pt){
+      drawPixel(c,pt[0],pt[1],dark);
+    });
+    return;
+  }
+
+  // ── TYPE 4: Cross / holy symbol ───────────────────────────────────────
+  if (classIdx === 4) {
+    // Vertical bar
+    drawVLine(c,5,0,12,main);
+    drawVLine(c,5,0,12,main);
+    // Horizontal bar
+    drawHLine(c,1,4,10,main);
+    drawHLine(c,2,5,8,mid);
+    // Center jewel
+    drawRect(c,4,3,4,4,light);
+    drawPixel(c,5,4,hl);
+    // Holy rays
+    var rayAngles = [0,60,120,180,240,300];
+    rayAngles.forEach(function(a){
+      var rad2 = a * Math.PI / 180;
+      for(var r5=4;r5<6;r5++){
+        var rx3 = 5 + Math.floor(Math.cos(rad2)*r5);
+        var ry3 = 5 + Math.floor(Math.sin(rad2)*r5);
+        if(rx3>=0&&rx3<SZ&&ry3>=0&&ry3<SZ){
+          drawPixel(c,rx3,ry3,light);
+        }
+      }
+    });
+    // Flanking gems
+    drawPixel(c,3,4,hl);
+    drawPixel(c,7,4,hl);
+    // Top crown points
+    drawPixel(c,5,0,light);
+    drawPixel(c,4,1,light);
+    drawPixel(c,6,1,light);
+    // Level cross overlay
+    var crossSize = Math.min(Math.floor(lv/20)+1,3);
+    for(var ci=-crossSize;ci<=crossSize;ci++){
+      if(Math.abs(ci)>crossSize-1){
+        drawPixel(c,5+ci,9,dark);
+        drawPixel(c,5+ci,10,dark);
+      }
+    }
+    return;
+  }
+
+  // ── TYPE 5: Star / cosmic ─────────────────────────────────────────────
+  if (classIdx === 5) {
+    var starR = 5;
+    var innerR = 2;
+    for(var sy=0;sy<SZ;sy++){
+      for(var sx=0;sx<SZ;sx++){
+        var dx = sx-5, dy = sy-5;
+        var d = Math.sqrt(dx*dx+dy*dy);
+        if(d<=starR){
+          var angle3 = Math.atan2(dy,dx);
+          var starPoint = (angle3 + Math.PI) / (2*Math.PI/5);
+          var adjusted = starPoint - Math.floor(starPoint);
+          var distFromStar = Math.abs(adjusted-0.5);
+          var inStar = d <= (distFromStar < 0.2 ? starR : innerR + (starR-innerR)*distFromStar*4);
+          if(inStar){
+            var col = d<2?hl:d<3?light:main:d<4?mid:dark;
+            drawPixel(c,sx,sy,col);
+          }
+        }
+      }
+    }
+    // Star sparkle lines
+    [[5,0],[5,11],[0,5],[11,5]].forEach(function(pt2){
+      drawPixel(c,pt2[0],pt2[1],lighten(light,0.5));
+    });
+    // Center orb
+    drawPixel(c,5,5,hl);
+    drawPixel(c,4,5,light);
+    drawPixel(c,6,5,light);
+    // Level constellation dots
+    var numDots = Math.min(Math.floor(lv/20)+1,4);
+    var dotAngle = lv * 0.3;
+    for(var di2=0;di2<numDots;di2++){
+      var da = (dotAngle + di2*(Math.PI*2/numDots));
+      var dd = 5 + Math.floor(Math.cos(da)*3);
+      var ddy = 5 + Math.floor(Math.sin(da)*3);
+      if(dd>=0&&dd<SZ&&ddy>=0&&ddy<SZ){
+        drawPixel(c,dd,ddy,light);
+      }
+    }
+    return;
+  }
+
+  // ── Default fallback: geometric ────────────────────────────────────────
+  // Grid pattern unique to each weapon
+  var grid = Math.floor(rng()*3);
+  if(grid===0){
+    // Checkerboard
+    for(var gy=0;gy<SZ;gy++){
+      for(var gx=0;gx<SZ;gx++){
+        if((gx+gy)%2===0) drawPixel(c,gx,gy,main);
+      }
+    }
+    drawRect(c,2,2,8,8,mid);
+    drawRect(c,4,4,4,4,light);
+    drawPixel(c,5,5,hl);
+  } else if(grid===1) {
+    // Concentric squares
+    for(var s=0;s<SZ/2;s++){
+      var sc = (s%2===0)?main:mid;
+      if(s===0) sc=light;
+      if(s>=SZ/2-1) sc=dark;
+      drawRect(c,s,s,SZ-s*2,SZ-s*2,sc);
+    }
+    drawPixel(c,5,5,hl);
+  } else {
+    // Diagonal stripes
+    for(var dy2=0;dy2<SZ;dy2++){
+      for(var dx2=0;dx2<SZ;dx2++){
+        if((dx2+dy2)%3===0) drawPixel(c,dx2,dy2,main);
+      }
+    }
+    drawRect(c,3,3,6,6,mid);
+    drawRect(c,4,4,4,4,light);
+    drawPixel(c,5,5,hl);
+  }
+}
+
+// ─── Render all ────────────────────────────────────────────────────────────
+var TIERS=[
+  {t:1,n:"起始之枪",e:"🔫"},
+  {t:2,n:"能量之枪",e:"⚡"},
+  {t:3,n:"烈焰之枪",e:"🔥"},
+  {t:4,n:"冰霜之枪",e:"❄"},
+  {t:5,n:"激光之枪",e:"💥"},
+  {t:6,n:"暗黑之枪",e:"🌑"},
+  {t:7,n:"神圣之枪",e:"⭐"},
+  {t:8,n:"宇宙之枪",e:"🌌"},
+  {t:9,n:"终极之枪",e:"💎"},
+  {t:10,n:"创世之枪",e:"👑"},
+];
+var TIER_COLORS=['#4a5568','#d97706','#dc2626','#0ea5e9','#a855f7','#374151','#f59e0b','#6366f1','#0891b2','#ea580c'];
+
 var html='<div>';
 TIERS.forEach(function(t){
-  html+='<div class="tier tier-'+t.t+'">';
-  html+='<div class="tier-header" style="background:'+t.c+'22;border-left:4px solid '+t.c+';color:'+t.gc+'">';
+  var c=TIER_COLORS[t.t-1];
+  html+='<div class="tier">';
+  html+='<div class="tier-head" style="background:'+c+'22;border-left:3px solid '+c+';color:'+c+'">';
   html+='<span class="tier-icon">'+t.e+'</span>';
-  html+='<span class="tier-name">'+t.n+'</span>';
+  html+='<span>'+t.n+'</span>';
   html+='<span class="tier-range">Lv.'+((t.t-1)*10+1)+'–'+(t.t*10)+'</span>';
   html+='</div>';
   html+='<div class="grid">';
   for(var i=0;i<10;i++){
     var lv=(t.t-1)*10+i+1;
-    var names=NAMES[t.t-1];
+    var name=NAMES[t.t-1][i];
     html+='<div class="card">';
-    html+=genSvg(lv,t.t,i);
-    html+='<div class="card-name">'+names[i]+'</div>';
+    html+='<div class="canvas-wrap"><canvas id="w'+lv+'" width="48" height="48"></canvas></div>';
+    html+='<div class="card-name">'+name+'</div>';
     html+='<div class="card-lv">Lv.'+lv+'</div>';
     html+='</div>';
   }
@@ -264,6 +481,16 @@ TIERS.forEach(function(t){
 });
 html+='</div>';
 document.getElementById('app').innerHTML=html;
+
+// Draw all icons
+TIERS.forEach(function(t){
+  for(var i=0;i<10;i++){
+    var lv=(t.t-1)*10+i+1;
+    var name=NAMES[t.t-1][i];
+    var canvas=document.getElementById('w'+lv);
+    if(canvas) drawWeaponIcon(canvas,lv,t.t,name,i);
+  }
+});
 </script>
 </body>
 </html>
