@@ -8,25 +8,74 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#1a1a2e;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:12px;max-width:640px;margin:0 auto;padding-bottom:60px}
 h1{text-align:center;font-size:18px;color:#ffd700;margin:10px 0 14px}
-.tier{margin-bottom:20px}
-.tier-hd{
-  display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;
-  margin-bottom:8px;font-size:13px;font-weight:700;
-}
-.tier-icon{font-size:18px}
+.tier{margin-bottom:22px}
+.tier-hd{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;margin-bottom:10px;font-size:13px;font-weight:700}
+.tier-ic{font-size:20px}
 .tier-rng{font-size:10px;opacity:0.7;margin-left:auto;font-weight:400}
 .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
-.card{background:#1e1e3f;border-radius:10px;padding:5px;text-align:center;min-height:90px;display:flex;flex-direction:column;align-items:center;gap:3px}
-.cname{font-size:7px;color:#aaa;line-height:1.3;max-width:100%;word-break:break-all}
-.clv{font-size:7px;color:#555;margin-top:auto}
-canvas{display:block;Image-rendering:pixelated;border-radius:3px;background:#0a0a1a}
-.fixed-bar{position:fixed;bottom:0;left:0;right:0;background:#16213e;border-top:1px solid #3a3a6a;padding:8px 16px;display:flex;justify-content:center;gap:10px;font-size:10px;color:#777;max-width:640px;margin:0 auto;flex-wrap:wrap}
+.card{
+  background:#1e1e3f;border-radius:10px;padding:8px 4px;
+  text-align:center;min-height:95px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:4px;
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+}
+.card-num{
+  font-size:26px;font-weight:900;line-height:1;
+  background:linear-gradient(180deg,#fff 0%,#aaa 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.card-tier{font-size:16px;line-height:1}
+.card-stars{font-size:9px;color:#ffd700;letter-spacing:1px;margin-top:2px}
+.card-name{font-size:7px;color:#888;line-height:1.3;max-width:100%;overflow:hidden;padding:0 2px}
+.card-lv{font-size:7px;color:#555;margin-top:auto}
+
+/* Tier 1 - Steel */
+.t1 .card::before{background:linear-gradient(90deg,#6b7280,#9ca3af,#6b7280)}
+.t1 .card-num{background:linear-gradient(180deg,#d1d5db,#6b7280);-webkit-background-clip:text;background-clip:text}
+.t1 .card-tier{filter:hue-rotate(0deg) saturate(0.3)}
+/* Tier 2 - Electric */
+.t2 .card::before{background:linear-gradient(90deg,#92400e,#fbbf24,#f59e0b)}
+.t2 .card-num{background:linear-gradient(180deg,#fde68a,#d97706);-webkit-background-clip:text;background-clip:text}
+/* Tier 3 - Fire */
+.t3 .card::before{background:linear-gradient(90deg,#991b1b,#ef4444,#f87171)}
+.t3 .card-num{background:linear-gradient(180deg,#fca5a5,#dc2626);-webkit-background-clip:text;background-clip:text}
+/* Tier 4 - Ice */
+.t4 .card::before{background:linear-gradient(90deg,#0369a1,#0ea5e9,#7dd3fc)}
+.t4 .card-num{background:linear-gradient(180deg,#bae6fd,#0284c7);-webkit-background-clip:text;background-clip:text}
+/* Tier 5 - Laser */
+.t5 .card::before{background:linear-gradient(90deg,#7e22ce,#a855f7,#c084fc)}
+.t5 .card-num{background:linear-gradient(180deg,#e9d5ff,#9333ea);-webkit-background-clip:text;background-clip:text}
+/* Tier 6 - Void */
+.t6 .card::before{background:linear-gradient(90deg,#030712,#4b5563,#111827)}
+.t6 .card-num{background:linear-gradient(180deg,#9ca3af,#374151);-webkit-background-clip:text;background-clip:text}
+/* Tier 7 - Holy */
+.t7 .card::before{background:linear-gradient(90deg,#78350f,#f59e0b,#fde68a)}
+.t7 .card-num{background:linear-gradient(180deg,#fef3c7,#b45309);-webkit-background-clip:text;background-clip:text}
+/* Tier 8 - Cosmic */
+.t8 .card::before{background:linear-gradient(90deg,#312e81,#6366f1,#c7d2fe)}
+.t8 .card-num{background:linear-gradient(180deg,#c7d2fe,#4338ca);-webkit-background-clip:text;background-clip:text}
+/* Tier 9 - Crystal */
+.t9 .card::before{background:linear-gradient(90deg,#155e75,#06b6d4,#67e8f9)}
+.t9 .card-num{background:linear-gradient(180deg,#cffafe,#0891b2);-webkit-background-clip:text;background-clip:text}
+/* Tier 10 - Cosmic Orange */
+.t10 .card::before{background:linear-gradient(90deg,#431407,#ea580c,#fed7aa)}
+.t10 .card-num{background:linear-gradient(180deg,#fed7aa,#9a3412);-webkit-background-clip:text;background-clip:text}
+.t10 .card{background:linear-gradient(180deg,#1e1e3f,#2d1500)}
+
+/* Tier icon badges */
+.tier-icons{display:flex;gap:3px;margin-top:2px}
+.tier-icons span{font-size:12px}
+.bar{position:fixed;bottom:0;left:0;right:0;background:#16213e;border-top:1px solid #3a3a6a;padding:8px 16px;display:flex;justify-content:center;gap:8px;font-size:10px;color:#777;max-width:640px;margin:0 auto;flex-wrap:wrap}
 </style>
 </head>
 <body>
 <h1>武器收集大作战 · 完整图鉴</h1>
 <div id="app"></div>
-<div class="fixed-bar">
+<div class="bar">
   <span>🔫起始</span><span>⚡能量</span><span>🔥烈焰</span><span>❄冰霜</span><span>💥激光</span><span>🌑暗黑</span><span>⭐神圣</span><span>🌌宇宙</span><span>💎终极</span><span>👑创世</span>
 </div>
 <script>
@@ -55,266 +104,32 @@ var NAMES=[
   ["量子手枪","全息步枪","时空猎枪","维度冲锋枪","平行光枪","未来射线","永恒之枪","时空领主","多元宇宙枪","维度裁决"],
   ["起源之枪","原初之光","万物之枪","永恒星杖","宇宙法则枪","时间领主","命运裁决","天道之枪","万物归一","创世神枪"],
 ];
-var PAL=[
-  ["#6b7280","#4b5563","#9ca3af","#d1d5db","#374151","#1f2937","#f3f4f6","#e5e7eb"],
-  ["#fbbf24","#f59e0b","#d97706","#92400e","#fef3c7","#fde68a","#fcd34d","#b45309"],
-  ["#ef4444","#dc2626","#f87171","#991b1b","#fca5a5","#7f1d1d","#b91c1c","#fecaca"],
-  ["#0ea5e9","#0284c7","#38bdf8","#0369a1","#bae6fd","#7dd3fc","#0c4a6e","#e0f2fe"],
-  ["#a855f7","#9333ea","#c084fc","#7e22ce","#e9d5ff","#d8b4fe","#6b21a8","#f3e8ff"],
-  ["#374151","#1f2937","#6b7280","#111827","#9ca3af","#4b5563","#030712","#d1d5db"],
-  ["#f59e0b","#d97706","#fbbf24","#b45309","#fef3c7","#fde68a","#78350f","#92400e"],
-  ["#6366f1","#4f46e5","#818cf8","#4338ca","#c7d2fe","#a5b4fc","#312e81","#e0e7ff"],
-  ["#06b6d4","#0891b2","#22d3ee","#0e7490","#cffafe","#67e8f9","#155e75","#ecfeff"],
-  ["#ea580c","#c2410c","#f97316","#9a3412","#fed7aa","#fdba74","#431407","#fff7ed"],
-];
 
-function hash(s){
-  var h=0;
-  for(var i=0;i<s.length;i++){
-    h=((h<<5)-h+s.charCodeAt(i))|0;
+var html = "";
+TIERS.forEach(function(t, ti) {
+  html += '<div class="tier t' + t.t + '">';
+  html += '<div class="tier-hd" style="background:' + TC[t.t-1] + '22;border-left:3px solid ' + TC[t.t-1] + ';color:' + TC[t.t-1] + '">';
+  html += '<span class="tier-ic">' + t.e + '</span>';
+  html += '<span>' + t.n + '</span>';
+  html += '<span class="tier-rng">Lv.' + ((t.t-1)*10+1) + '-' + (t.t*10) + '</span>';
+  html += '</div>';
+  html += '<div class="grid">';
+  for (var i = 0; i < 10; i++) {
+    var lv = (t.t-1)*10 + i + 1;
+    var name = NAMES[t.t-1][i];
+    var stars = "";
+    var starCount = Math.ceil(lv / 20);
+    for (var s = 0; s < starCount; s++) stars += "★";
+    html += '<div class="card">';
+    html += '<div class="card-tier">' + t.e + '</div>';
+    html += '<div class="card-num">' + lv + '</div>';
+    html += '<div class="card-stars">' + stars + '</div>';
+    html += '<div class="card-name">' + name + '</div>';
+    html += '</div>';
   }
-  return Math.abs(h);
-}
-
-function rnd(seed){
-  var x=Math.sin(seed+1)*10000;
-  return x-Math.floor(x);
-}
-
-function px(c,x,y,color){
-  c.fillStyle=color;
-  c.fillRect(x*4,y*4,4,4);
-}
-
-function rect(c,x,y,w,h,color){
-  c.fillStyle=color;
-  c.fillRect(x*4,y*4,w*4,h*4);
-}
-
-function hline(c,x,y,w,color){
-  c.fillStyle=color;
-  c.fillRect(x*4,y*4,w*4,4);
-}
-
-function vline(c,x,y,h,color){
-  c.fillStyle=color;
-  c.fillRect(x*4,y*4,4,h*4);
-}
-
-function draw(canvas,lv,tier,name){
-  canvas.width=48;
-  canvas.height=48;
-  var ctx=canvas.getContext("2d");
-  ctx.imageSmoothingEnabled=false;
-  var pal=PAL[tier-1];
-  var main=pal[0],mid=pal[1],light=pal[2],dark=pal[3],hl=pal[4],shadow=pal[5];
-  var h=hash(name+lv+tier);
-  var type=h%6;
-  var SZ=12;
-
-  // Clear
-  rect(ctx,0,0,SZ,SZ,"#0a0a18");
-
-  if(type===0){
-    // Diamond gem
-    var cx=5,cy=5;
-    for(var y=0;y<SZ;y++){
-      for(var x=0;x<SZ;x++){
-        var d=Math.abs(x-cx)+Math.abs(y-cy);
-        if(d<=5){
-          var col=d<=1?hl:d<=3?main:d<=4?mid:dark;
-          px(ctx,x,y,col);
-        }
-      }
-    }
-    // Highlight
-    px(ctx,cx,cy-2,light);
-    px(ctx,cx-1,cy-1,light);
-    px(ctx,cx+1,cy-1,light);
-    px(ctx,cx,cy-1,light);
-    // Corner cuts
-    px(ctx,1,1,"#0a0a18");
-    px(ctx,10,1,"#0a0a18");
-    px(ctx,1,10,"#0a0a18");
-    px(ctx,10,10,"#0a0a18");
-    // Sparkle
-    px(ctx,2,5,light);
-    px(ctx,9,5,light);
-    px(ctx,5,2,light);
-    px(ctx,5,9,light);
-    // Stars
-    var ns=Math.floor(lv/20)+1;
-    for(var i=0;i<ns;i++){
-      px(ctx,1+i*2,11,"#ffd700");
-    }
-  } else if(type===1){
-    // Sword
-    for(var y=0;y<9;y++){
-      var w2=y<2?2:y<5?3:y<7?2:1;
-      var col=y<4?main:y<7?mid:dark;
-      for(var x=5-w2;x<=5+w2;x++){
-        px(ctx,x,y,col);
-      }
-    }
-    hline(ctx,2,9,8,light);
-    hline(ctx,3,10,6,mid);
-    vline(ctx,5,11,1,main);
-    px(ctx,5,11,dark);
-    if(lv%3!==0) vline(ctx,5,1,6,light);
-    if(lv%2===0){px(ctx,5,9,hl);px(ctx,4,9,hl);}
-    rect(ctx,4,12,4,1,main);
-    px(ctx,4,12,light);
-    px(ctx,7,12,dark);
-    // Edge glint
-    px(ctx,6,1,light);
-    px(ctx,4,2,light);
-    px(ctx,6,3,light);
-    var ns2=Math.min(Math.floor(lv/20)+1,3);
-    for(var i2=0;i2<ns2;i2++){
-      px(ctx,2+i2*2,2,"#ffd700");
-    }
-  } else if(type===2){
-    // Shield hexagon
-    for(var y=0;y<SZ;y++){
-      for(var x=0;x<SZ;x++){
-        var inUpper=y<=5?(x>=1&&x<=9&&Math.abs(x-5)+y<=6):false;
-        var inLower=y>=6?(x>=1&&x<=9&&Math.abs(x-5)+(11-y)<=6):false;
-        if(inUpper||inLower){
-          var d=Math.sqrt((x-5)*(x-5)+(y-5)*(y-5);
-          var col=d<2?hl:d<4?main:d<5?mid:dark;
-          px(ctx,x,y,col);
-        }
-      }
-    }
-    var emx=3+rnd(h+1)*6;
-    var emy=3+rnd(h+2)*6;
-    for(var dy=-1;dy<=1;dy++){
-      for(var dx=-1;dx<=1;dx++){
-        if(Math.abs(dx)+Math.abs(dy)<=1){
-          px(ctx,emx+dx,emy+dy,light);
-        }
-      }
-    }
-    hline(ctx,1,11,10,dark);
-    var filled=Math.ceil(lv/10);
-    for(var bi=0;bi<filled;bi++){
-      px(ctx,1+bi,11,light);
-    }
-  } else if(type===3){
-    // Energy spiral
-    var cx=5,cy=5;
-    for(var a=0;a<lv*4+200;a+=8){
-      var rad=a*Math.PI/180;
-      var arm=Math.floor(a/(lv+20))%3;
-      for(var r=1;r<5;r++){
-        var ax=Math.round(cx+Math.cos(rad*(arm+1))*r);
-        var ay=Math.round(cy+Math.sin(rad*(arm+1))*r);
-        if(ax>=0&&ax<SZ&&ay>=0&&ay<SZ){
-          var col=r<2?hl:r<3?main:mid;
-          px(ctx,ax,ay,col);
-        }
-      }
-    }
-    for(var cy2=-1;cy2<=1;cy2++){
-      for(var cx2=-1;cx2<=1;cx2++){
-        px(ctx,5+cx2,5+cy2,hl);
-      }
-    }
-    for(var ri=0;ri<8;ri++){
-      var rx=Math.round(5+Math.cos(ri*Math.PI/4)*4);
-      var ry=Math.round(5+Math.sin(ri*Math.PI/4)*4);
-      px(ctx,rx,ry,main);
-    }
-  } else if(type===4){
-    // Cross / holy
-    vline(ctx,5,0,12,main);
-    hline(ctx,1,4,10,main);
-    hline(ctx,2,5,8,mid);
-    rect(ctx,4,3,4,4,light);
-    px(ctx,5,4,hl);
-    for(var a=0;a<6;a++){
-      var rad=a*Math.PI/3;
-      for(var r2=4;r2<6;r2++){
-        var rx2=Math.round(5+Math.cos(rad)*r2);
-        var ry2=Math.round(5+Math.sin(rad)*r2);
-        if(rx2>=0&&rx2<SZ&&ry2>=0&&ry2<SZ){
-          px(ctx,rx2,ry2,light);
-        }
-      }
-    }
-    px(ctx,3,4,hl);
-    px(ctx,7,4,hl);
-    px(ctx,5,0,light);
-    px(ctx,4,1,light);
-    px(ctx,6,1,light);
-  } else {
-    // Star
-    for(var sy=0;sy<SZ;sy++){
-      for(var sx=0;sx<SZ;sx++){
-        var dx2=sx-5,dy3=sy-5;
-        var d=Math.sqrt(dx2*dx2+dy3*dy3);
-        if(d<=5){
-          var angle=Math.atan2(dy3,dx2);
-          var starPoint=(angle+Math.PI)/(2*Math.PI/5);
-          var adj=starPoint-Math.floor(starPoint);
-          var inStar=d<=(adj<0.2?5:2+(5-2)*adj*4);
-          if(inStar){
-            var col=d<2?hl:d<3?light:mid;
-            px(ctx,sx,sy,col);
-          }
-        }
-      }
-    }
-    px(ctx,5,5,hl);
-    px(ctx,4,5,light);
-    px(ctx,6,5,light);
-    var nDots=Math.min(Math.floor(lv/20)+1,4);
-    var dotAng=lv*0.3;
-    for(var di=0;di<nDots;di++){
-      var da=dotAng+di*(Math.PI*2/nDots);
-      var dd=Math.round(5+Math.cos(da)*3);
-      var ddy=Math.round(5+Math.sin(da)*3);
-      if(dd>=0&&dd<SZ&&ddy>=0&&ddy<SZ){
-        px(ctx,dd,ddy,light);
-      }
-    }
-    px(ctx,5,0,light);
-    px(ctx,5,11,light);
-    px(ctx,0,5,light);
-    px(ctx,11,5,light);
-  }
-}
-
-var html="";
-TIERS.forEach(function(t,ti){
-  html+='<div class="tier">';
-  html+='<div class="tier-hd" style="background:'+TC[t.t-1]+'22;border-left:3px solid '+TC[t.t-1]+';color:'+TC[t.t-1]+'">';
-  html+='<span class="tier-icon">'+t.e+'</span>';
-  html+='<span>'+t.n+'</span>';
-  html+='<span class="tier-rng">Lv.'+((t.t-1)*10+1)+'-'+(t.t*10)+'</span>';
-  html+='</div>';
-  html+='<div class="grid">';
-  for(var i=0;i<10;i++){
-    var lv=(t.t-1)*10+i+1;
-    var name=NAMES[t.t-1][i];
-    html+='<div class="card">';
-    html+='<canvas id="c'+lv+'" width="48" height="48"></canvas>';
-    html+='<div class="cname">'+name+'</div>';
-    html+='<div class="clv">Lv.'+lv+'</div>';
-    html+='</div>';
-  }
-  html+='</div></div>';
+  html += '</div></div>';
 });
-document.getElementById("app").innerHTML=html;
-
-TIERS.forEach(function(t){
-  for(var i=0;i<10;i++){
-    var lv=(t.t-1)*10+i+1;
-    var name=NAMES[t.t-1][i];
-    var c=document.getElementById("c"+lv);
-    if(c) draw(c,lv,t.t,name);
-  }
-});
+document.getElementById("app").innerHTML = html;
 </script>
 </body>
 </html>
