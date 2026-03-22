@@ -376,106 +376,38 @@ body{
 
 <script>// Weapon Quest Game - game.js
 var WEAPONS = [
-  {lv:1,n:"玩具水枪",e:"\ud83d\udd2b",t:1,tn:"起始之枪"},
-  {lv:2,n:"小弹弓枪",e:"\ud83c\udff9",t:1,tn:"起始之枪"},
-  {lv:3,n:"橡皮筋枪",e:"\ud83d\udd2b",t:1,tn:"起始之枪"},
-  {lv:4,n:"软弹枪",e:"\ud83d\udd2b",t:1,tn:"起始之枪"},
-  {lv:5,n:"木制手枪",e:"\ud83d\udd2b",t:1,tn:"起始之枪"},
-  {lv:6,n:"塑料步枪",e:"\ud83d\udd2b",t:1,tn:"起始之枪"},
-  {lv:7,n:"弹簧手枪",e:"\ud83d\udd2b",t:1,tn:"起始之枪"},
-  {lv:8,n:"水弹枪",e:"\ud83d\udd2b",t:1,tn:"起始之枪"},
-  {lv:9,n:"儿童猎枪",e:"\ud83d\udd2b",t:1,tn:"起始之枪"},
-  {lv:10,n:"泡沫冲锋枪",e:"\ud83d\udd2b",t:1,tn:"起始之枪"},
-  {lv:11,n:"电动冲锋枪",e:"\u26a1",t:2,tn:"能量之枪"},
-  {lv:12,n:"加特林玩具枪",e:"\u26a1",t:2,tn:"能量之枪"},
-  {lv:13,n:"电光枪",e:"\u26a1",t:2,tn:"能量之枪"},
-  {lv:14,n:"电磁步枪",e:"\u26a1",t:2,tn:"能量之枪"},
-  {lv:15,n:"闪电冲锋枪",e:"\u26a1",t:2,tn:"能量之枪"},
-  {lv:16,n:"能量光枪",e:"\u26a1",t:2,tn:"能量之枪"},
-  {lv:17,n:"电弧手枪",e:"\u26a1",t:2,tn:"能量之枪"},
-  {lv:18,n:"特斯拉枪",e:"\u26a1",t:2,tn:"能量之枪"},
-  {lv:19,n:"脉冲冲锋枪",e:"\u26a1",t:2,tn:"能量之枪"},
-  {lv:20,n:"闪电之锤",e:"\u26a1",t:2,tn:"能量之枪"},
-  {lv:21,n:"火焰喷射器",e:"\ud83d\udd25",t:3,tn:"烈焰之枪"},
-  {lv:22,n:"燃烧弹枪",e:"\ud83d\udd25",t:3,tn:"烈焰之枪"},
-  {lv:23,n:"烈焰步枪",e:"\ud83d\udd25",t:3,tn:"烈焰之枪"},
-  {lv:24,n:"火神枪",e:"\ud83d\udd25",t:3,tn:"烈焰之枪"},
-  {lv:25,n:"熔岩冲锋枪",e:"\ud83d\udd25",t:3,tn:"烈焰之枪"},
-  {lv:26,n:"烈焰之爪",e:"\ud83d\udd25",t:3,tn:"烈焰之枪"},
-  {lv:27,n:"红莲手枪",e:"\ud83d\udd25",t:3,tn:"烈焰之枪"},
-  {lv:28,n:"火焰风暴枪",e:"\ud83d\udd25",t:3,tn:"烈焰之枪"},
-  {lv:29,n:"爆炎步枪",e:"\ud83d\udd25",t:3,tn:"烈焰之枪"},
-  {lv:30,n:"焚天之怒",e:"\ud83d\udd25",t:3,tn:"烈焰之枪"},
-  {lv:31,n:"冰冻射线枪",e:"\u2744",t:4,tn:"冰霜之枪"},
-  {lv:32,n:"霜寒冲锋枪",e:"\u2744",t:4,tn:"冰霜之枪"},
-  {lv:33,n:"冰晶步枪",e:"\u2744",t:4,tn:"冰霜之枪"},
-  {lv:34,n:"雪崩之枪",e:"\u2744",t:4,tn:"冰霜之枪"},
-  {lv:35,n:"寒冰光枪",e:"\u2744",t:4,tn:"冰霜之枪"},
-  {lv:36,n:"极地猎枪",e:"\u2744",t:4,tn:"冰霜之枪"},
-  {lv:37,n:"冰封射线",e:"\u2744",t:4,tn:"冰霜之枪"},
-  {lv:38,n:"北极风暴枪",e:"\u2744",t:4,tn:"冰霜之枪"},
-  {lv:39,n:"玄冰之矛",e:"\u2744",t:4,tn:"冰霜之枪"},
-  {lv:40,n:"绝对零度",e:"\u2744",t:4,tn:"冰霜之枪"},
-  {lv:41,n:"激光手枪",e:"\ud83d\udca5",t:5,tn:"激光之枪"},
-  {lv:42,n:"激光步枪",e:"\ud83d\udca5",t:5,tn:"激光之枪"},
-  {lv:43,n:"光束冲锋枪",e:"\ud83d\udca5",t:5,tn:"激光之枪"},
-  {lv:44,n:"量子光枪",e:"\ud83d\udca5",t:5,tn:"激光之枪"},
-  {lv:45,n:"等离子步枪",e:"\ud83d\udca5",t:5,tn:"激光之枪"},
-  {lv:46,n:"光子手枪",e:"\ud83d\udca5",t:5,tn:"激光之枪"},
-  {lv:47,n:"射线猎枪",e:"\ud83d\udca5",t:5,tn:"激光之枪"},
-  {lv:48,n:"光棱冲锋枪",e:"\ud83d\udca5",t:5,tn:"激光之枪"},
-  {lv:49,n:"星际光枪",e:"\ud83d\udca5",t:5,tn:"激光之枪"},
-  {lv:50,n:"神光裁决",e:"\ud83d\udca5",t:5,tn:"激光之枪"},
-  {lv:51,n:"暗影手枪",e:"\ud83c\udf11",t:6,tn:"暗黑之枪"},
-  {lv:52,n:"夜幕冲锋枪",e:"\ud83c\udf11",t:6,tn:"暗黑之枪"},
-  {lv:53,n:"幽灵步枪",e:"\ud83c\udf11",t:6,tn:"暗黑之枪"},
-  {lv:54,n:"暗夜猎手",e:"\ud83c\udf11",t:6,tn:"暗黑之枪"},
-  {lv:55,n:"虚空之枪",e:"\ud83c\udf11",t:6,tn:"暗黑之枪"},
-  {lv:56,n:"冥王射线",e:"\ud83c\udf11",t:6,tn:"暗黑之枪"},
-  {lv:57,n:"暗物质枪",e:"\ud83c\udf11",t:6,tn:"暗黑之枪"},
-  {lv:58,n:"幽冥冲锋枪",e:"\ud83c\udf11",t:6,tn:"暗黑之枪"},
-  {lv:59,n:"深渊猎手",e:"\ud83c\udf11",t:6,tn:"暗黑之枪"},
-  {lv:60,n:"暗夜裁决",e:"\ud83c\udf11",t:6,tn:"暗黑之枪"},
-  {lv:61,n:"圣光手枪",e:"\u2b50",t:7,tn:"神圣之枪"},
-  {lv:62,n:"天使之羽枪",e:"\u2b50",t:7,tn:"神圣之枪"},
-  {lv:63,n:"神圣裁决",e:"\u2b50",t:7,tn:"神圣之枪"},
-  {lv:64,n:"光之子步枪",e:"\u2b50",t:7,tn:"神圣之枪"},
-  {lv:65,n:"天使长之枪",e:"\u2b50",t:7,tn:"神圣之枪"},
-  {lv:66,n:"圣灵冲锋枪",e:"\u2b50",t:7,tn:"神圣之枪"},
-  {lv:67,n:"神圣之光",e:"\u2b50",t:7,tn:"神圣之枪"},
-  {lv:68,n:"天使圣剑",e:"\u2b50",t:7,tn:"神圣之枪"},
-  {lv:69,n:"创世之光",e:"\u2b50",t:7,tn:"神圣之枪"},
-  {lv:70,n:"圣光裁决",e:"\u2b50",t:7,tn:"神圣之枪"},
-  {lv:71,n:"星际手枪",e:"\ud83c\udf0c",t:8,tn:"宇宙之枪"},
-  {lv:72,n:"银河步枪",e:"\ud83c\udf0c",t:8,tn:"宇宙之枪"},
-  {lv:73,n:"彗星冲锋枪",e:"\ud83c\udf0c",t:8,tn:"宇宙之枪"},
-  {lv:74,n:"黑洞射线枪",e:"\ud83c\udf0c",t:8,tn:"宇宙之枪"},
-  {lv:75,n:"星云光枪",e:"\ud83c\udf0c",t:8,tn:"宇宙之枪"},
-  {lv:76,n:"宇宙猎手",e:"\ud83c\udf0c",t:8,tn:"宇宙之枪"},
-  {lv:77,n:"星际风暴",e:"\ud83c\udf0c",t:8,tn:"宇宙之枪"},
-  {lv:78,n:"银河守护者",e:"\ud83c\udf0c",t:8,tn:"宇宙之枪"},
-  {lv:79,n:"宇宙之心",e:"\ud83c\udf0c",t:8,tn:"宇宙之枪"},
-  {lv:80,n:"银河裁决",e:"\ud83c\udf0c",t:8,tn:"宇宙之枪"},
-  {lv:81,n:"量子手枪",e:"\ud83d\udc8e",t:9,tn:"终极之枪"},
-  {lv:82,n:"全息步枪",e:"\ud83d\udc8e",t:9,tn:"终极之枪"},
-  {lv:83,n:"时空猎枪",e:"\ud83d\udc8e",t:9,tn:"终极之枪"},
-  {lv:84,n:"维度冲锋枪",e:"\ud83d\udc8e",t:9,tn:"终极之枪"},
-  {lv:85,n:"平行光枪",e:"\ud83d\udc8e",t:9,tn:"终极之枪"},
-  {lv:86,n:"未来射线",e:"\ud83d\udc8e",t:9,tn:"终极之枪"},
-  {lv:87,n:"永恒之枪",e:"\ud83d\udc8e",t:9,tn:"终极之枪"},
-  {lv:88,n:"时空领主",e:"\ud83d\udc8e",t:9,tn:"终极之枪"},
-  {lv:89,n:"多元宇宙枪",e:"\ud83d\udc8e",t:9,tn:"终极之枪"},
-  {lv:90,n:"维度裁决",e:"\ud83d\udc8e",t:9,tn:"终极之枪"},
-  {lv:91,n:"起源之枪",e:"\ud83d\udc51",t:10,tn:"创世之枪"},
-  {lv:92,n:"原初之光",e:"\ud83d\udc51",t:10,tn:"创世之枪"},
-  {lv:93,n:"万物之枪",e:"\ud83d\udc51",t:10,tn:"创世之枪"},
-  {lv:94,n:"永恒星杖",e:"\ud83d\udc51",t:10,tn:"创世之枪"},
-  {lv:95,n:"宇宙法则枪",e:"\ud83d\udc51",t:10,tn:"创世之枪"},
-  {lv:96,n:"时间领主",e:"\ud83d\udc51",t:10,tn:"创世之枪"},
-  {lv:97,n:"命运裁决",e:"\ud83d\udc51",t:10,tn:"创世之枪"},
-  {lv:98,n:"天道之枪",e:"\ud83d\udc51",t:10,tn:"创世之枪"},
-  {lv:99,n:"万物归一",e:"\ud83d\udc51",t:10,tn:"创世之枪"},
-  {lv:100,n:"创世神枪",e:"\ud83d\udc51",t:10,tn:"创世之枪"}
+  // -- 冷兵器 --
+  {lv:1,  n:"木棍",     e:"\ud83e\udde4", era:"cold",  cost:10},
+  {lv:2,  n:"石斧",     e:"\ud83e\udd93", era:"cold",  cost:20},
+  {lv:3,  n:"青铜剑",   e:"\u2694\ufe0f", era:"cold",  cost:30},
+  {lv:4,  n:"铁剑",     e:"\ud83e\udd61\ufe0f", era:"cold",  cost:40},
+  {lv:5,  n:"钢刀",     e:"\ud83d\udd2a", era:"cold",  cost:50},
+  // -- 火器 --
+  {lv:6,  n:"火绳枪",   e:"\ud83d\udd2b", era:"fire",  cost:60},
+  {lv:7,  n:"左轮手枪",  e:"\ud83e\uddad", era:"fire",  cost:70},
+  {lv:8,  n:"步枪",     e:"\ud83c\udfaf", era:"fire",  cost:80},
+  {lv:9,  n:"冲锋枪",   e:"\ud83d\udca8", era:"fire",  cost:90},
+  {lv:10, n:"狙击枪",   e:"\ud83d\udd2d", era:"fire",  cost:100},
+  // -- 重型 --
+  {lv:11, n:"加特林",   e:"\u2699\ufe0f", era:"heavy", cost:120},
+  {lv:12, n:"火箭筒",   e:"\ud83d\ude80", era:"heavy", cost:140},
+  {lv:13, n:"榴弹炮",   e:"\ud83d\udca3", era:"heavy", cost:160},
+  {lv:14, n:"坦克炮",   e:"\ud83e\udde1\ufe0f", era:"heavy", cost:180},
+  // -- 能量 --
+  {lv:15, n:"激光枪",   e:"\u26a1", era:"energy", cost:200},
+  {lv:16, n:"电磁炮",   e:"\ud83d\udd0c", era:"energy", cost:230},
+  {lv:17, n:"等离子炮", e:"\ud83d\udca5", era:"energy", cost:260},
+  {lv:18, n:"冷冻射线", e:"\u2744\ufe0f", era:"energy", cost:300},
+  // -- 科幻 --
+  {lv:19, n:"量子炮",   e:"\ud83d\udd2e", era:"future", cost:350},
+  {lv:20, n:"星际舰炮", e:"\ud83c\udf0c", era:"future", cost:0},
+];
+var ERAS = [
+  {id:"cold",   n:"冷兵器时代", e:"\ud83e\udd75", color:"#8B4513"},
+  {id:"fire",   n:"早期火器",   e:"\ud83d\udd2b", color:"#CD7F32"},
+  {id:"heavy",  n:"重型武器",   e:"\ud83d\udca3", color:"#b91c1c"},
+  {id:"energy", n:"能量武器",   e:"\u26a1", color:"#7c3aed"},
+  {id:"future", n:"未来科技",   e:"\ud83c\udf0c", color:"#6366f1"},
 ];
 
 var TASK_ICONS = ["\ud83d\udcdd","\ud83d\udcd6","\u270f\ufe0f","\ud83d\udcda","\ud83c\udfc3","\ud83e\uddf9","\ud83d\udd73","\ud83e\uddca","\ud83c\udf31","\u2b50"];
@@ -490,9 +422,9 @@ var currentPage = "home";
 var taskView = "list"; // "list" or "templates"
 var editingTemplateId = null;
 var selectedIcon = "\ud83d\udcdd";
-var STORAGE_KEY = "wpquest_v2";
+var STORAGE_KEY = "wpquest_v3";
 
-function xpForLevel(lv) { return lv * 100; }
+function xpForLevel(lv) { return lv * 80; }
 function todayStr() { return new Date().toISOString().split("T")[0]; }
 function yesterdayStr() {
   var d = new Date(); d.setDate(d.getDate() - 1);
@@ -603,9 +535,11 @@ function rateTask(id, rating) {
 function refundTask(task) {
   var r = task.rating;
   if (r === "full") {
-    state.gold -= 10; state.xp -= 5; state.fragments -= 1; state.totalDone -= 1;
+    state.gold -= 10; state.xp -= 5; state.fragments -= 10; state.totalDone -= 1;
   } else if (r === "partial") {
-    state.gold -= 6; state.xp -= 3; state.totalDone -= 1;
+    state.gold -= 6; state.xp -= 3; state.fragments -= 6; state.totalDone -= 1;
+  } else if (r === "none") {
+    state.gold -= 2; state.xp -= 1; state.fragments -= 2; state.totalDone -= 1;
   }
   if (state.gold < 0) state.gold = 0;
   if (state.xp < 0) state.xp = 0;
@@ -631,13 +565,18 @@ function applyRating(task, rating) {
 }
 
 function checkWeaponUnlock() {
-  while (state.fragments >= 10) {
-    var nextLv = (state.currentWp || 0) + 1;
-    if (nextLv > 100) break;
-    state.currentWp = nextLv;
-    state.fragments -= 10;
-    if (state.ownedWp.indexOf(nextLv) === -1) state.ownedWp.push(nextLv);
-    setTimeout(confettiBurst, 100);
+  while (true) {
+    var wp = getCurrentWeapon();
+    var nextWp = wp.lv < 20 ? WEAPONS[wp.lv] : null;
+    if (!nextWp) break; // max tier reached
+    if (state.fragments >= nextWp.cost) {
+      state.fragments -= nextWp.cost;
+      state.currentWp = nextWp.lv;
+      if (state.ownedWp.indexOf(nextWp.lv) === -1) state.ownedWp.push(nextWp.lv);
+      setTimeout(confettiBurst, 100);
+    } else {
+      break;
+    }
   }
 }
 
@@ -691,8 +630,8 @@ function showPage(page) {
 function refreshDisplay() { renderHome(); }
 
 function getCurrentWeapon() {
-  var lv = state.currentWp || 0;
-  return lv === 0 ? WEAPONS[0] : (WEAPONS[lv - 1] || WEAPONS[0]);
+  var lv = state.currentWp || 1;
+  return WEAPONS[lv - 1] || WEAPONS[0];
 }
 
 // ---- HOME ----
@@ -701,7 +640,10 @@ function renderHome() {
   if (!el) return;
   var wp = getCurrentWeapon();
   var nextWp = state.currentWp < 100 ? WEAPONS[state.currentWp] : null;
-  var fragPct = Math.min((state.fragments / 10) * 100, 100);
+  var wp = getCurrentWeapon();
+  var nextWp = wp.lv < 20 ? WEAPONS[wp.lv] : null;
+  var fragNeeded = nextWp ? nextWp.cost : 0;
+  var fragPct = fragNeeded > 0 ? Math.min((state.fragments / fragNeeded) * 100, 100) : 100;
   var xpPct = Math.min((state.xp / xpForLevel(state.level)) * 100, 100);
   var todayDone = 0;
   for (var i = 0; i < state.tasks.length; i++) {
