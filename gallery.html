@@ -3,182 +3,267 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🔫 武器图鉴</title>
+<title>⚔️ 武器图鉴</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#1a1a2e;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:20px;max-width:600px;margin:0 auto;padding-bottom:60px}
-h1{text-align:center;font-size:22px;color:#ffd700;margin-bottom:20px;padding-top:10px}
+body{background:#1a1a2e;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:20px;max-width:640px;margin:0 auto;padding-bottom:80px}
+h1{text-align:center;font-size:20px;color:#ffd700;margin-bottom:20px;padding-top:10px}
 .tier{margin-bottom:28px}
-.tier-title{
-  font-size:15px;font-weight:700;padding:8px 14px;border-radius:10px;
-  margin-bottom:10px;display:flex;align-items:center;gap:8px;
+.tier-header{
+  display:flex;align-items:center;gap:10px;padding:10px 14px;
+  border-radius:10px;margin-bottom:12px;font-weight:700;font-size:14px;
 }
-.tier-title .emoji{font-size:20px}
-.tier-title .name{font-size:15px}
-.weapon-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-@media(min-width:500px){.weapon-grid{grid-template-columns:repeat(5,1fr)}}
-.wp{
+.tier-icon{font-size:22px}
+.tier-name{font-size:14px}
+.tier-range{font-size:11px;opacity:0.7;margin-left:auto}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(min-width:480px){.grid{grid-template-columns:repeat(5,1fr)}}
+.card{
   background:#1e1e3f;border:1px solid #3a3a6a;border-radius:12px;
-  padding:10px 4px;text-align:center;min-height:80px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  padding:8px 4px;text-align:center;min-height:100px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  transition:transform 0.2s;
 }
-.wp .e{font-size:26px}
-.wp .n{font-size:10px;color:#b0b0b0;line-height:1.3}
-.wp .lv{font-size:9px;color:#666}
-.wp.all .e{font-size:26px}
-.wp.all .n{color:#e0e0e0}
-.wp.locked .e{font-size:20px;opacity:0.4}
-.wp.locked .n{color:#555}
-.wp.locked .lv{color:#444}
-.wp:nth-child(10n+1){border-color:rgba(157,78,221,0.4)}
-.legend{
+.card:active{transform:scale(0.95)}
+.card-name{font-size:9px;color:#b0b0b0;line-height:1.3;max-width:100%;overflow:hidden}
+.card-lv{font-size:8px;color:#555;margin-top:auto}
+.card:hover .card-name{color:#fff}
+.tier-1 .card{border-color:#4a5568}
+.tier-2 .card{border-color:#d97706}
+.tier-3 .card{border-color:#dc2626}
+.tier-4 .card{border-color:#0ea5e9}
+.tier-5 .card{border-color:#a855f7}
+.tier-6 .card{border-color:#1f2937;border-color:#374151}
+.tier-7 .card{border-color:#f59e0b}
+.tier-8 .card{border-color:#6366f1}
+.tier-9 .card{border-color:#0891b2}
+.tier-10 .card{border-color:#ea580c;border-width:2px;background:linear-gradient(135deg,#1e1e3f,#2d1a00)}
+.bottom-bar{
   position:fixed;bottom:0;left:0;right:0;background:#16213e;
-  border-top:1px solid #3a3a6a;padding:10px 20px;
+  border-top:1px solid #3a3a6a;padding:12px 20px;
   display:flex;justify-content:center;gap:20px;font-size:12px;color:#b0b0b0;
-  max-width:600px;margin:0 auto;
+  max-width:640px;margin:0 auto;
 }
-.legend span{display:flex;align-items:center;gap:4px}
+.bottom-bar span{display:flex;align-items:center;gap:4px}
 </style>
 </head>
 <body>
 <h1>⚔️ 武器收集大作战 · 完整图鉴</h1>
-<div id="gallery"></div>
-<div class="legend">
+<div id="app"></div>
+<div class="bottom-bar">
   <span>🔫 起始之枪</span><span>⚡ 能量之枪</span><span>🔥 烈焰之枪</span><span>❄️ 冰霜之枪</span><span>💥 激光之枪</span>
 </div>
 <script>
-var WEAPONS=[
-{lv:1,n:"玩具水枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
-{lv:2,n:"小弹弓枪",e:"🏹",t:1,tn:"起始之枪",c:"#6b7280"},
-{lv:3,n:"橡皮筋枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
-{lv:4,n:"软弹枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
-{lv:5,n:"木制手枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
-{lv:6,n:"塑料步枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
-{lv:7,n:"弹簧手枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
-{lv:8,n:"水弹枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
-{lv:9,n:"儿童猎枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
-{lv:10,n:"泡沫冲锋枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
-{lv:11,n:"电动冲锋枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
-{lv:12,n:"加特林玩具枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
-{lv:13,n:"电光枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
-{lv:14,n:"电磁步枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
-{lv:15,n:"闪电冲锋枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
-{lv:16,n:"能量光枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
-{lv:17,n:"电弧手枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
-{lv:18,n:"特斯拉枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
-{lv:19,n:"脉冲冲锋枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
-{lv:20,n:"闪电之锤",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
-{lv:21,n:"火焰喷射器",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
-{lv:22,n:"燃烧弹枪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
-{lv:23,n:"烈焰步枪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
-{lv:24,n:"火神枪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
-{lv:25,n:"熔岩冲锋枪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
-{lv:26,n:"烈焰之爪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
-{lv:27,n:"红莲手枪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
-{lv:28,n:"火焰风暴枪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
-{lv:29,n:"爆炎步枪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
-{lv:30,n:"焚天之怒",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
-{lv:31,n:"冰冻射线枪",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
-{lv:32,n:"霜寒冲锋枪",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
-{lv:33,n:"冰晶步枪",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
-{lv:34,n:"雪崩之枪",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
-{lv:35,n:"寒冰光枪",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
-{lv:36,n:"极地猎枪",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
-{lv:37,n:"冰封射线",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
-{lv:38,n:"北极风暴枪",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
-{lv:39,n:"玄冰之矛",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
-{lv:40,n:"绝对零度",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
-{lv:41,n:"激光手枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
-{lv:42,n:"激光步枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
-{lv:43,n:"光束冲锋枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
-{lv:44,n:"量子光枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
-{lv:45,n:"等离子步枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
-{lv:46,n:"光子手枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
-{lv:47,n:"射线猎枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
-{lv:48,n:"光棱冲锋枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
-{lv:49,n:"星际光枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
-{lv:50,n:"神光裁决",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
-{lv:51,n:"暗影手枪",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
-{lv:52,n:"夜幕冲锋枪",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
-{lv:53,n:"幽灵步枪",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
-{lv:54,n:"暗夜猎手",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
-{lv:55,n:"虚空之枪",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
-{lv:56,n:"冥王射线",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
-{lv:57,n:"暗物质枪",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
-{lv:58,n:"幽冥冲锋枪",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
-{lv:59,n:"深渊猎手",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
-{lv:60,n:"暗夜裁决",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
-{lv:61,n:"圣光手枪",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
-{lv:62,n:"天使之羽枪",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
-{lv:63,n:"神圣裁决",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
-{lv:64,n:"光之子步枪",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
-{lv:65,n:"天使长之枪",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
-{lv:66,n:"圣灵冲锋枪",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
-{lv:67,n:"神圣之光",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
-{lv:68,n:"天使圣剑",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
-{lv:69,n:"创世之光",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
-{lv:70,n:"圣光裁决",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
-{lv:71,n:"星际手枪",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
-{lv:72,n:"银河步枪",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
-{lv:73,n:"彗星冲锋枪",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
-{lv:74,n:"黑洞射线枪",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
-{lv:75,n:"星云光枪",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
-{lv:76,n:"宇宙猎手",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
-{lv:77,n:"星际风暴",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
-{lv:78,n:"银河守护者",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
-{lv:79,n:"宇宙之心",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
-{lv:80,n:"银河裁决",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
-{lv:81,n:"量子手枪",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
-{lv:82,n:"全息步枪",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
-{lv:83,n:"时空猎枪",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
-{lv:84,n:"维度冲锋枪",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
-{lv:85,n:"平行光枪",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
-{lv:86,n:"未来射线",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
-{lv:87,n:"永恒之枪",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
-{lv:88,n:"时空领主",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
-{lv:89,n:"多元宇宙枪",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
-{lv:90,n:"维度裁决",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
-{lv:91,n:"起源之枪",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
-{lv:92,n:"原初之光",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
-{lv:93,n:"万物之枪",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
-{lv:94,n:"永恒星杖",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
-{lv:95,n:"宇宙法则枪",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
-{lv:96,n:"时间领主",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
-{lv:97,n:"命运裁决",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
-{lv:98,n:"天道之枪",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
-{lv:99,n:"万物归一",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
-{lv:100,n:"创世神枪",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
-];
 var TIERS=[
-{t:1,n:"起始之枪",e:"🔫",c:"#6b7280"},
-{t:2,n:"能量之枪",e:"⚡",c:"#fbbf24"},
-{t:3,n:"烈焰之枪",e:"🔥",c:"#ef4444"},
-{t:4,n:"冰霜之枪",e:"❄",c:"#38bdf8"},
-{t:5,n:"激光之枪",e:"💥",c:"#a855f7"},
-{t:6,n:"暗黑之枪",e:"🌑",c:"#4b5563"},
-{t:7,n:"神圣之枪",e:"⭐",c:"#fcd34d"},
-{t:8,n:"宇宙之枪",e:"🌌",c:"#818cf8"},
-{t:9,n:"终极之枪",e:"💎",c:"#06b6d4"},
-{t:10,n:"创世之枪",e:"👑",c:"#f97316"},
+  {t:1,n:"起始之枪",e:"🔫",c:"#4a5568",gc:"#9ca3af"},
+  {t:2,n:"能量之枪",e:"⚡",c:"#d97706",gc:"#fbbf24"},
+  {t:3,n:"烈焰之枪",e:"🔥",c:"#dc2626",gc:"#f97316"},
+  {t:4,n:"冰霜之枪",e:"❄",c:"#0ea5e9",gc:"#7dd3fc"},
+  {t:5,n:"激光之枪",e:"💥",c:"#a855f7",gc:"#e879f9"},
+  {t:6,n:"暗黑之枪",e:"🌑",c:"#374151",gc:"#6b7280"},
+  {t:7,n:"神圣之枪",e:"⭐",c:"#f59e0b",gc:"#fcd34d"},
+  {t:8,n:"宇宙之枪",e:"🌌",c:"#6366f1",gc:"#a5b4fc"},
+  {t:9,n:"终极之枪",e:"💎",c:"#0891b2",gc:"#67e8f9"},
+  {t:10,n:"创世之枪",e:"👑",c:"#ea580c",gc:"#fb923c"},
 ];
-var html='';
-TIERS.forEach(function(tier){
-  var wps=WEAPONS.filter(function(w){return w.t===tier.t;});
-  html+='<div class="tier">';
-  html+='<div class="tier-title" style="background:'+tier.c+'22;border-left:4px solid '+tier.c+';color:'+tier.c+'">';
-  html+='<span class="emoji">'+tier.e+'</span><span class="name">'+tier.n+'（'+wps[0].lv+' - '+wps[wps.length-1].lv+'级，共'+wps.length+'把）</span>';
+var CLASSES=[
+  {c:"手枪",barrel:1,scope:0,stock:0},
+  {c:"步枪",barrel:2,scope:1,stock:1},
+  {c:"冲锋枪",barrel:1,scope:0,stock:0,mag:1},
+  {c:"猎枪",barrel:3,scope:0,stock:2},
+  {c:"光枪",barrel:1,scope:2,stock:0,emissive:1},
+  {c:"魔枪",barrel:2,scope:1,stock:1,magic:1},
+  {c:"光棱枪",barrel:3,scope:1,stock:2,blade:1},
+  {c:"射线枪",barrel:2,scope:2,stock:1,ray:1},
+  {c:"裁决",barrel:1,scope:0,stock:3,special:1},
+  {c:"神杖",barrel:0,scope:0,stock:3,orb:1},
+];
+
+function genSvg(lv, tier, cls) {
+  var t = TIERS[tier-1];
+  var w = 60, h = 52;
+  var c = t.c, gc = t.gc;
+  var angle = -15 + (lv%5)*7;
+  var hasGlow = tier>=3;
+  var hasMagic = cls.magic;
+  var isLaser = tier==5;
+  var isOrb = cls.orb;
+  var isBlade = cls.blade;
+  var isRay = cls.ray;
+  var isSpecial = cls.special;
+  var isEnergy = tier==2;
+  var intensity = 0.4 + (lv/100)*0.6;
+
+  var defs = "";
+  if(hasGlow){
+    var glowC = c;
+    defs += '<filter id="g'+lv+'" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
+    defs += '<filter id="s'+lv+'" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
+  }
+  if(isLaser){
+    defs += '<filter id="l'+lv+'" x="-100%" y="-50%" width="300%" height="200%"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
+  }
+
+  var shapes = [];
+  var style = 'fill:none;stroke-linecap:round;stroke-linejoin:round';
+
+  // === GLOW AURA ===
+  if(hasGlow){
+    shapes.push('<circle cx="30" cy="26" r="24" fill="'+c+'" opacity="'+(0.07*intensity)+'" />');
+  }
+
+  // === SPECIAL WEAPONS ===
+  if(isOrb){
+    // Magic orb weapon
+    shapes.push('<circle cx="30" cy="20" r="8" fill="'+c+'" opacity="0.9" filter="url(#g'+lv+')" />');
+    shapes.push('<circle cx="30" cy="20" r="5" fill="'+gc+'" opacity="0.8" />');
+    shapes.push('<line x1="30" y1="28" x2="30" y2="45" stroke="'+c+'" stroke-width="3" '+style+' />');
+    shapes.push('<line x1="30" y1="45" x2="24" y2="52" stroke="'+c+'" stroke-width="2" '+style+' />');
+    shapes.push('<line x1="30" y1="45" x2="36" y2="52" stroke="'+c+'" stroke-width="2" '+style+' />');
+    shapes.push('<line x1="22" y1="16" x2="30" y2="20" stroke="'+gc+'" stroke-width="1.5" opacity="0.7" />');
+    shapes.push('<line x1="38" y1="16" x2="30" y2="20" stroke="'+gc+'" stroke-width="1.5" opacity="0.7" />');
+    shapes.push('<line x1="26" y1="12" x2="30" y2="20" stroke="'+gc+'" stroke-width="1.5" opacity="0.7" />');
+    shapes.push('<line x1="34" y1="12" x2="30" y2="20" stroke="'+gc+'" stroke-width="1.5" opacity="0.7" />');
+  } else if(isBlade){
+    // Blade weapon
+    shapes.push('<line x1="14" y1="42" x2="48" y2="14" stroke="'+c+'" stroke-width="4" '+style+' filter="url(#s'+lv+')" />');
+    shapes.push('<line x1="14" y1="42" x2="48" y2="14" stroke="'+gc+'" stroke-width="1.5" '+style+' opacity="0.5" />');
+    shapes.push('<rect x="11" y="38" width="8" height="8" rx="1" fill="'+c+'" transform="rotate(-45 15 42)" />');
+    shapes.push('<line x1="12" y1="44" x2="18" y2="38" stroke="'+gc+'" stroke-width="1" />');
+    shapes.push('<line x1="15" y1="44" x2="21" y2="38" stroke="'+gc+'" stroke-width="1" />');
+  } else if(isRay){
+    // Ray gun
+    var rayColors = ['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#c77dff'];
+    var rc = rayColors[(lv-1)%5];
+    shapes.push('<rect x="12" y="22" width="30" height="14" rx="3" fill="'+c+'" opacity="0.8" filter="url(#g'+lv+')" />');
+    shapes.push('<rect x="42" y="24" width="14" height="10" rx="2" fill="'+c+'" opacity="0.6" />');
+    shapes.push('<rect x="14" y="24" width="26" height="4" rx="2" fill="'+gc+'" opacity="0.6" />');
+    shapes.push('<circle cx="20" cy="26" r="2" fill="'+rc+'" />');
+    shapes.push('<line x1="48" y1="29" x2="58" y2="29" stroke="'+rc+'" stroke-width="2" opacity="0.9" filter="url(#l'+lv+')" />');
+    shapes.push('<rect x="8" y="25" width="6" height="8" rx="1" fill="'+c+'" opacity="0.7" />');
+  } else if(isSpecial){
+    // Holy/special judgement weapon - big ornate cross
+    shapes.push('<line x1="30" y1="6" x2="30" y2="46" stroke="'+gc+'" stroke-width="5" '+style+' filter="url(#g'+lv+')" />');
+    shapes.push('<line x1="16" y1="18" x2="44" y2="18" stroke="'+gc+'" stroke-width="5" '+style+' />');
+    shapes.push('<line x1="30" y1="6" x2="30" y2="46" stroke="#fff" stroke-width="2" '+style+' opacity="0.4" />');
+    shapes.push('<line x1="16" y1="18" x2="44" y2="18" stroke="#fff" stroke-width="2" '+style+' opacity="0.4" />');
+    shapes.push('<circle cx="30" cy="18" r="3" fill="'+gc+'" opacity="0.9" />');
+  } else {
+    // === REGULAR GUNS ===
+    var barrelLen = 10 + cls.barrel*6 + (lv%3)*3;
+    var hasScope = cls.scope;
+    var hasMag = cls.mag;
+    var hasStock = cls.stock;
+
+    // Barrel
+    var bx=48, by=28-bx/20, bw=barrelLen, bh=4;
+    shapes.push('<rect x="'+bx+'" y="'+by+'" width="'+bw+'" height="'+bh+'" rx="1" fill="'+c+'" filter="url(#s'+lv+')" />');
+
+    // Scope / rail
+    if(hasScope>0){
+      var sx=bx-2+Math.floor(bw/2)-3;
+      shapes.push('<rect x="'+sx+'" y="'+(by-5-hasScope*2)+'" width="6" height="'+(5+hasScope*2)+'" rx="1" fill="'+gc+'" opacity="0.9" />');
+      shapes.push('<line x1="'+(sx+3)+'" y1="'+(by-5-hasScope*2)+'" x2="'+(sx+3)+'" y2="'+(by-8-hasScope*3)+'" stroke="'+gc+'" stroke-width="1.5" />');
+      shapes.push('<circle cx="'+(sx+3)+'" cy="'+(by-8-hasScope*3)+'" r="1.5" fill="'+gc+'" />');
+    }
+
+    // Body/receiver
+    var bodyH = 10 + Math.floor(lv/20)*2;
+    var bodyY = 28 - bodyH/2;
+    shapes.push('<rect x="22" y="'+bodyY+'" width="28" height="'+bodyH+'" rx="2" fill="'+c+'" />');
+    shapes.push('<rect x="24" y="'+(bodyY+2)+'" width="24" height="'+(bodyH-4)+'" rx="1" fill="'+gc+'" opacity="0.3" />');
+
+    // Trigger guard
+    shapes.push('<path d="M 34,'+(bodyY+bodyH)+' Q 38,'+(bodyY+bodyH+6)+' 42,'+(bodyY+bodyH)+'" stroke="'+c+'" stroke-width="1.5" fill="none" />');
+    shapes.push('<line x1="38" y1="'+(bodyY+bodyH)+'" x2="38" y2="'+(bodyY+bodyH+5)+'" stroke="'+gc+'" stroke-width="1" />');
+
+    // Magazine
+    if(hasMag){
+      shapes.push('<rect x="30" y="'+(bodyY+bodyH)+'" width="8" height="'+(6+lv%3*2)+'" rx="1" fill="'+c+'" opacity="0.8" />');
+      shapes.push('<rect x="31" y="'+(bodyY+bodyH+1)+'" width="6" height="2" fill="'+gc+'" opacity="0.5" />');
+    }
+
+    // Stock
+    if(hasStock==1){
+      shapes.push('<path d="M 22,'+(bodyY+2)+' L 14,'+(bodyY+bodyH/2)+' L 14,'+(bodyY+bodyH-2)+' L 22,'+(bodyY+bodyH-2)+'" fill="'+c+'" opacity="0.9" />');
+    } else if(hasStock>=2){
+      shapes.push('<path d="M 22,'+(bodyY+2)+' L 12,'+(bodyY+4)+' L 10,'+(bodyY+bodyH-2)+' L 22,'+(bodyY+bodyH-2)+'" fill="'+c+'" />');
+      shapes.push('<line x1="14" y1="'+(bodyY+bodyH/2)+'" x2="12" y2="'+(bodyY+bodyH/2)+'" stroke="'+gc+'" stroke-width="1" opacity="0.6" />');
+    }
+
+    // Grip
+    shapes.push('<path d="M 36,'+(bodyY+bodyH-1)+' L 38,'+(bodyY+bodyH+8)+' L 43,'+(bodyY+bodyH+8)+' L 43,'+(bodyY+bodyH)+'" fill="'+c+'" opacity="0.9" />');
+
+    // Energy/laser glow on barrel tip
+    if(tier>=2||isEnergy){
+      shapes.push('<circle cx="'+(bx+bw)+'" cy="'+(by+bh/2)+'" r="3" fill="'+gc+'" opacity="'+(0.5+intensity*0.5)+'" filter="url(#s'+lv+')" />');
+      if(isEnergy){
+        shapes.push('<circle cx="'+(bx+bw)+'" cy="'+(by+bh/2)+'" r="1.5" fill="#fff" opacity="0.9" />');
+      }
+    }
+
+    // Tier-specific accents
+    if(tier==3){ // Fire
+      shapes.push('<path d="M'+(bx+bw-2)+','+(by-3)+' Q'+(bx+bw+2)+','+(by-8)+' '+(bx+bw+4)+','+(by-2)+'" stroke="#ff6b35" stroke-width="2" fill="none" opacity="0.8" />');
+    }
+    if(tier==4){ // Ice
+      shapes.push('<line x1="'+(bx+bw)+'" y1="'+(by-4)+'" x2="'+(bx+bw+3)+'" y2="'+(by-6)+'" stroke="#a5f3fc" stroke-width="1.5" />');
+      shapes.push('<line x1="'+(bx+bw+2)+'" y1="'+(by-2)+'" x2="'+(bx+bw+5)+'" y2="'+(by-4)+'" stroke="#a5f3fc" stroke-width="1" />');
+    }
+  }
+
+  // Level number
+  shapes.push('<text x="5" y="10" font-size="8" fill="'+gc+'" font-family="sans-serif" opacity="0.6">'+lv+'</text>');
+
+  // Rarity stars
+  var starY = 48;
+  var stars = Math.ceil(lv/20);
+  for(var i=0;i<stars;i++){
+    shapes.push('<text x="'+(20+i*5)+'" y="'+starY+'" font-size="5" fill="'+gc+'" opacity="0.7">★</text>');
+  }
+
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 52" width="52" height="44">' +
+    (defs?'<defs>'+defs+'</defs>':'') +
+    shapes.join('') +
+    '</svg>';
+  return svg;
+}
+
+var NAMES=[
+  ["玩具水枪","小弹弓枪","橡皮筋枪","软弹枪","木制手枪","塑料步枪","弹簧手枪","水弹枪","儿童猎枪","泡沫冲锋枪"],
+  ["电动冲锋枪","加特林玩具枪","电光枪","电磁步枪","闪电冲锋枪","能量光枪","电弧手枪","特斯拉枪","脉冲冲锋枪","闪电之锤"],
+  ["火焰喷射器","燃烧弹枪","烈焰步枪","火神枪","熔岩冲锋枪","烈焰之爪","红莲手枪","火焰风暴枪","爆炎步枪","焚天之怒"],
+  ["冰冻射线枪","霜寒冲锋枪","冰晶步枪","雪崩之枪","寒冰光枪","极地猎枪","冰封射线","北极风暴枪","玄冰之矛","绝对零度"],
+  ["激光手枪","激光步枪","光束冲锋枪","量子光枪","等离子步枪","光子手枪","射线猎枪","光棱冲锋枪","星际光枪","神光裁决"],
+  ["暗影手枪","夜幕冲锋枪","幽灵步枪","暗夜猎手","虚空之枪","冥王射线","暗物质枪","幽冥冲锋枪","深渊猎手","暗夜裁决"],
+  ["圣光手枪","天使之羽枪","神圣裁决","光之子步枪","天使长之枪","圣灵冲锋枪","神圣之光","天使圣剑","创世之光","圣光裁决"],
+  ["星际手枪","银河步枪","彗星冲锋枪","黑洞射线枪","星云光枪","宇宙猎手","星际风暴","银河守护者","宇宙之心","银河裁决"],
+  ["量子手枪","全息步枪","时空猎枪","维度冲锋枪","平行光枪","未来射线","永恒之枪","时空领主","多元宇宙枪","维度裁决"],
+  ["起源之枪","原初之光","万物之枪","永恒星杖","宇宙法则枪","时间领主","命运裁决","天道之枪","万物归一","创世神枪"],
+];
+
+var html='<div>';
+TIERS.forEach(function(t){
+  html+='<div class="tier tier-'+t.t+'">';
+  html+='<div class="tier-header" style="background:'+t.c+'22;border-left:4px solid '+t.c+';color:'+t.gc+'">';
+  html+='<span class="tier-icon">'+t.e+'</span>';
+  html+='<span class="tier-name">'+t.n+'</span>';
+  html+='<span class="tier-range">Lv.'+((t.t-1)*10+1)+'–'+(t.t*10)+'</span>';
   html+='</div>';
-  html+='<div class="weapon-grid">';
-  wps.forEach(function(w){
-    html+='<div class="wp all">';
-    html+='<div class="e">'+w.e+'</div>';
-    html+='<div class="n">'+w.n+'</div>';
-    html+='<div class="lv">Lv.'+w.lv+'</div>';
+  html+='<div class="grid">';
+  for(var i=0;i<10;i++){
+    var lv=(t.t-1)*10+i+1;
+    var names=NAMES[t.t-1];
+    html+='<div class="card">';
+    html+=genSvg(lv,t.t,i);
+    html+='<div class="card-name">'+names[i]+'</div>';
+    html+='<div class="card-lv">Lv.'+lv+'</div>';
     html+='</div>';
-  });
+  }
   html+='</div></div>';
 });
-document.getElementById('gallery').innerHTML=html;
+html+='</div>';
+document.getElementById('app').innerHTML=html;
 </script>
 </body>
 </html>
