@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>⚔️ 武器收集大作战</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#1a1a2e;--bg2:#16213e;--bg3:#0f3460;
+  --purple:#9d4edd;--purple2:#c77dff;--gold:#ffd700;
+  --green:#00d26a;--red:#ff6b6b;--text:#e0e0e0;--text2:#b0b0b0;
+  --card:#1e1e3f;--card2:#252550;--border:#3a3a6a;
+}
+html,body{height:100%;overflow:hidden}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  display:flex;flex-direction:column;
+  max-width:520px;margin:0 auto;
+  /* 用 dvh 兼容手机浏览器地址栏问题，iOS Safari 也支持 */
+  height:100vh;
+  height:100dvh;
+  /* 旧版浏览器 fallback */
+  min-height:-webkit-fill-available;
+}
+
+/* HEADER */
+.header{
+  background:linear-gradient(135deg,#6b21a8 0%,#9d4edd 50%,#7c3aed 100%);
+  padding:12px 16px 10px;text-align:center;flex-shrink:0;
+  box-shadow:0 2px 12px rgba(157,78,221,0.4);
+  position:relative;
+}
+.header h1{font-size:17px;font-weight:700;color:#fff;letter-spacing:1px}
+.header-sub{font-size:11px;color:rgba(255,255,255,0.8);margin-top:2px}
+.settings-btn{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  background:rgba(255,255,255,0.15);border:none;border-radius:50%;
+  width:32px;height:32px;cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;color:#fff;
+}
+
+/* MAIN */
+.main{flex:1;overflow-y:auto;overflow-x:hidden;padding:12px;webkit-overflow-scrolling:touch}
+.main::-webkit-scrollbar{width:3px}
+.main::-webkit-scrollbar-track{background:transparent}
+.main::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.page{display:none}
+
+/* HOME */
+.home-name{font-size:22px;font-weight:700;color:var(--gold);text-align:center;margin-bottom:4px}
+.home-level{text-align:center;margin-bottom:14px}
+.lv-badge{background:linear-gradient(135deg,#7c3aed,#9d4edd);border-radius:20px;padding:4px 14px;font-size:12px;color:#fff;font-weight:600}
+.streak-badge{background:rgba(255,107,107,0.2);border:1px solid var(--red);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--red);margin-left:8px}
+.home-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.hs-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:10px 4px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px;
+  min-height:64px;justify-content:center;
+}
+.hs-emoji{font-size:18px}
+.hs-val{font-size:17px;font-weight:700;color:var(--gold)}
+.hs-label{font-size:10px;color:var(--text2)}
+.home-wp{
+  background:linear-gradient(135deg,var(--card) 0%,var(--card2) 100%);
+  border:2px solid var(--purple);border-radius:16px;padding:14px;
+  text-align:center;margin-bottom:10px;box-shadow:0 0 20px rgba(157,78,221,0.2);
+}
+.wp-eyebrow{font-size:12px;color:var(--purple2);margin-bottom:4px}
+.wp-name{font-size:22px;font-weight:700;color:#fff;margin-bottom:8px}
+.frag-bar-wrap{text-align:left}
+.frag-bar{background:var(--card2);border-radius:8px;height:8px;overflow:hidden;border:1px solid var(--border)}
+.frag-bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,#06b6d4,#22d3ee);transition:width 0.5s}
+.frag-hint{font-size:11px;color:var(--text2);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xp-row{margin-bottom:10px}
+.xp-label{font-size:11px;color:var(--text2);margin-bottom:4px}
+.bar-bg{background:var(--card2);border-radius:8px;height:8px;overflow:hidden;border:1px solid var(--border)}
+.bar-fill{height:100%;border-radius:8px;transition:width 0.5s}
+.xp-fill{background:linear-gradient(90deg,#7c3aed,#a855f7)}
+.cta-card{
+  background:var(--card);border:2px solid var(--purple);border-radius:14px;padding:14px;
+  display:flex;align-items:center;gap:12px;cursor:pointer;
+  transition:all 0.2s;margin-top:4px;touch-action:manipulation;
+}
+.cta-card:active{transform:scale(0.98);background:rgba(157,78,221,0.1)}
+.cta-icon{font-size:28px}
+.cta-body{flex:1}
+.cta-title{font-size:16px;font-weight:600;color:#fff}
+.cta-warn{font-size:12px;color:var(--red);margin-top:2px}
+.cta-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.cta-arrow{font-size:24px;color:var(--purple2)}
+
+/* TASKS */
+.view-tabs{display:flex;gap:6px;margin-bottom:10px}
+.tab-btn{
+  flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:9px;color:var(--text2);font-size:13px;cursor:pointer;text-align:center;
+  transition:all 0.2s;font-family:inherit;
+}
+.tab-btn.active{background:rgba(157,78,221,0.2);border-color:var(--purple);color:var(--purple2);font-weight:600}
+.icon-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.ic-opt{
+  font-size:18px;padding:4px;cursor:pointer;border-radius:8px;
+  transition:all 0.15s;display:inline-block;line-height:1;
+}
+.ic-opt:active{transform:scale(1.2)}
+.ic-opt.ic-sel{background:rgba(157,78,221,0.3);border-radius:8px}
+.add-row{display:flex;gap:6px;margin-bottom:10px}
+.add-row input{
+  flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:10px 14px;color:var(--text);font-size:14px;outline:none;font-family:inherit;
+}
+.add-row input:focus{border-color:var(--purple)}
+.add-row input::placeholder{color:var(--text2)}
+.btn-add{
+  background:linear-gradient(135deg,#7c3aed,#9d4edd);border:none;border-radius:12px;
+  padding:10px 14px;color:#fff;font-size:18px;cursor:pointer;font-weight:600;
+  min-width:48px;min-height:48px;touch-action:manipulation;
+}
+.task-list{margin-bottom:8px}
+.task-item{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:10px;margin-bottom:6px;
+}
+.task-item.task-done{border-color:var(--green);background:rgba(0,210,106,0.05)}
+.task-item.task-imp{border-left:3px solid var(--gold)}
+.task-row{display:flex;align-items:center;gap:8px}
+.tcheck{font-size:20px;cursor:pointer;flex-shrink:0;min-width:28px;text-align:center;touch-action:manipulation}
+.ticon{font-size:16px;flex-shrink:0}
+.ttext{flex:1;font-size:14px;word-break:break-all}
+.ttext.tdone{text-decoration:line-through;color:var(--text2)}
+.tstar{font-size:16px;cursor:pointer;flex-shrink:0;touch-action:manipulation;min-width:24px;text-align:center}
+.tdel{font-size:14px;cursor:pointer;flex-shrink:0;touch-action:manipulation;min-width:24px;text-align:center;opacity:0.5}
+.rate-row{display:flex;gap:6px;margin-top:8px}
+.rb{
+  flex:1;background:var(--card2);border:2px solid var(--border);border-radius:10px;
+  padding:8px 4px;color:var(--text2);font-size:12px;cursor:pointer;text-align:center;
+  transition:all 0.2s;min-height:44px;font-family:inherit;touch-action:manipulation;
+}
+.rb:active{transform:scale(0.96)}
+.rb.rb-on{background:rgba(255,217,61,0.2);border-color:var(--gold);color:var(--gold);font-weight:700}
+.rb.rb-half{background:rgba(0,210,106,0.2);border-color:var(--green);color:var(--green);font-weight:700}
+.rew-info{text-align:center;font-size:12px;color:var(--gold);margin-top:4px}
+.summary{text-align:center;font-size:13px;color:var(--text2);padding:8px}
+.empty{text-align:center;padding:32px;color:var(--text2);font-size:14px;line-height:1.8}
+
+/* TEMPLATES */
+.btn-new-tpl{
+  width:100%;background:linear-gradient(135deg,#059669,#10b981);
+  border:none;border-radius:12px;padding:12px;color:#fff;font-size:15px;
+  font-weight:600;cursor:pointer;margin-bottom:10px;font-family:inherit;touch-action:manipulation;
+}
+.tpl-list{}
+.tpl-item{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:6px;overflow:hidden}
+.tpl-head{
+  padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:8px;
+  touch-action:manipulation;
+}
+.tpl-head:active{background:rgba(255,255,255,0.03)}
+.tpl-nm{flex:1;font-weight:600;font-size:14px}
+.tpl-ct{font-size:12px;color:var(--text2)}
+.tpl-chev{font-size:18px;color:var(--text2)}
+.tpl-body{padding:0 14px 12px;border-top:1px solid var(--border)}
+.tpl-tasks{margin:8px 0}
+.tpl-t{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px;border-bottom:1px solid var(--card2)}
+.tpl-t:last-child{border-bottom:none}
+.tpl-btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tplbtn{
+  flex:1;min-width:90px;padding:8px 6px;border-radius:10px;font-size:12px;
+  cursor:pointer;text-align:center;border:1px solid;font-family:inherit;
+  touch-action:manipulation;min-height:40px;
+}
+.tplbtn:active{transform:scale(0.97)}
+.tpl-use{background:rgba(0,210,106,0.15);border-color:var(--green);color:var(--green)}
+.tpl-ed{background:rgba(157,78,221,0.15);border-color:var(--purple);color:var(--purple2)}
+.tpl-del{background:rgba(255,107,107,0.15);border-color:var(--red);color:var(--red)}
+
+/* TEMPLATE EDITOR */
+.tpl-editor{background:var(--card);border:2px solid var(--purple);border-radius:14px;padding:14px}
+.tpl-name-row{margin-bottom:10px}
+.tpl-name-in{
+  width:100%;background:var(--card2);border:1px solid var(--border);border-radius:10px;
+  padding:10px 12px;color:#fff;font-size:15px;outline:none;font-family:inherit;
+}
+.tpl-name-in:focus{border-color:var(--purple)}
+.tpl-tasks-area{margin-bottom:8px}
+.tpl-task-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.tpl-sel{
+  background:var(--card2);border:1px solid var(--border);border-radius:8px;
+  color:#fff;font-size:16px;padding:4px;min-width:44px;cursor:pointer;font-family:inherit;
+}
+.tpl-in{
+  flex:1;background:var(--card2);border:1px solid var(--border);border-radius:8px;
+  padding:8px 10px;color:#fff;font-size:13px;outline:none;font-family:inherit;
+}
+.tpl-in:focus{border-color:var(--purple)}
+.btn-add-task{
+  width:100%;background:var(--card2);border:1px solid var(--border);border-radius:10px;
+  padding:10px;color:var(--text2);font-size:13px;cursor:pointer;margin-bottom:10px;
+  font-family:inherit;
+}
+.tpl-editor-btns{display:flex;gap:8px}
+.tpl-save{flex:1;background:linear-gradient(135deg,#7c3aed,#9d4edd);border:none;border-radius:10px;padding:10px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;touch-action:manipulation;min-height:44px}
+.tpl-cancel{flex:1;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px;color:var(--text2);font-size:14px;cursor:pointer;font-family:inherit;touch-action:manipulation;min-height:44px}
+
+/* WEAPONS PAGE */
+.wp-section-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:10px;text-align:center}
+.weapons-scroll{max-height:45vh;overflow-y:auto;margin-bottom:14px}
+.tier-section{margin-bottom:12px}
+.tier-header{
+  font-size:13px;font-weight:700;padding:5px 10px;
+  border-left:4px solid;border-radius:0 8px 8px 0;
+  margin-bottom:6px;background:var(--card);
+}
+.wp-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:5px;
+}
+@media (min-width:400px){
+  .wp-grid{grid-template-columns:repeat(5,1fr)}
+}
+.wp-chip{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:6px 2px;text-align:center;min-height:56px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+}
+.wp-chip.wp-cur{border-color:var(--purple);background:rgba(157,78,221,0.15);box-shadow:0 0 8px rgba(157,78,221,0.3)}
+.wp-chip.wp-owned{opacity:1}
+.wp-emoji{font-size:18px}
+.wp-ch-name{font-size:9px;color:var(--text);line-height:1.2;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wp-ch-lv{font-size:8px;color:var(--text2)}
+.wp-cur-badge{font-size:10px}
+
+/* ACHIEVEMENTS */
+.ach-section{}
+.ach-title{font-size:16px;font-weight:700;margin-bottom:10px}
+.ach-item{
+  display:flex;align-items:center;gap:12px;
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:10px 12px;margin-bottom:6px;
+}
+.ach-item.ach-on{border-color:var(--gold);background:rgba(255,215,0,0.06)}
+.ach-ic{font-size:22px;min-width:32px;text-align:center}
+.ach-info{flex:1}
+.ach-lb{font-weight:600;font-size:14px}
+.ach-ds{font-size:11px;color:var(--text2)}
+
+/* BOTTOM NAV */
+.nav{
+  display:flex;background:var(--bg2);border-top:1px solid var(--border);
+  flex-shrink:0;padding:4px 0;
+}
+.nav-btn{
+  flex:1;background:none;border:none;color:var(--text2);font-size:22px;
+  padding:6px 0 4px;cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;gap:1px;transition:all 0.2s;border-radius:8px;margin:2px 4px;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.nav-btn span{font-size:10px;font-family:inherit}
+.nav-btn.active{color:var(--purple2);background:rgba(157,78,221,0.15)}
+.nav-btn:active{transform:scale(0.9)}
+
+/* SETTINGS */
+.settings-panel{
+  display:none;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:12px;margin-bottom:12px;
+}
+.settings-panel h3{font-size:14px;color:var(--text);margin-bottom:10px}
+.settings-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.settings-btn-sm{
+  flex:1;min-width:80px;background:var(--card2);border:1px solid var(--border);
+  border-radius:10px;padding:8px 10px;color:var(--text);font-size:12px;
+  cursor:pointer;text-align:center;font-family:inherit;touch-action:manipulation;
+}
+.settings-btn-sm.danger{border-color:var(--red);color:var(--red)}
+.settings-info{font-size:11px;color:var(--text2);margin-top:6px}
+
+/* NAME MODAL */
+.modal-overlay{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.show{display:flex}
+.modal{
+  background:linear-gradient(135deg,var(--card) 0%,var(--bg2) 100%);
+  border:2px solid var(--purple);border-radius:20px;padding:28px 24px;
+  width:100%;max-width:360px;text-align:center;
+  box-shadow:0 0 40px rgba(157,78,221,0.4);
+}
+.modal h2{font-size:22px;color:var(--gold);margin-bottom:6px}
+.modal p{font-size:13px;color:var(--text2);margin-bottom:20px}
+.modal input{
+  width:100%;background:var(--card2);border:2px solid var(--border);border-radius:12px;
+  padding:12px 16px;color:#fff;font-size:16px;text-align:center;margin-bottom:16px;outline:none;font-family:inherit;
+}
+.modal input:focus{border-color:var(--purple)}
+.modal-btn{
+  width:100%;background:linear-gradient(135deg,#7c3aed,#9d4edd);border:none;
+  border-radius:12px;padding:12px;color:#fff;font-size:16px;font-weight:700;
+  cursor:pointer;font-family:inherit;touch-action:manipulation;min-height:48px;
+}
+
+/* SOUND TOGGLE */
+.sound-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0}
+.sound-label{font-size:13px;color:var(--text)}
+.toggle-switch{
+  width:44px;height:24px;background:var(--card2);border-radius:12px;
+  position:relative;cursor:pointer;border:1px solid var(--border);
+  transition:all 0.3s;
+}
+.toggle-switch.on{background:var(--green);border-color:var(--green)}
+.toggle-switch::after{
+  content:'';position:absolute;width:18px;height:18px;
+  background:#fff;border-radius:50%;top:2px;left:2px;
+  transition:all 0.3s;
+}
+.toggle-switch.on::after{left:22px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>⚔️ 武器收集大作战 🎯</h1>
+  <div class="header-sub">完成作业 → 收集武器 → 成为传奇！</div>
+  <button class="settings-btn" onclick="toggleSettings()" title="设置">⚙️</button>
+</div>
+
+<div id="settings-panel" class="settings-panel">
+  <h3>⚙️ 设置与数据</h3>
+  <div class="sound-row">
+    <span class="sound-label">🔊 音效反馈</span>
+    <div class="toggle-switch" id="sound-toggle" onclick="toggleSound()"></div>
+  </div>
+  <div class="settings-row" style="margin-top:10px">
+    <button class="settings-btn-sm" onclick="exportData()">📤 导出备份</button>
+    <label class="settings-btn-sm" style="cursor:pointer">
+      📥 导入
+      <input type="file" accept=".json" style="display:none" onchange="importData(this)" />
+    </label>
+  </div>
+  <div class="settings-row">
+    <button class="settings-btn-sm danger" onclick="resetData()">🗑️ 重置数据</button>
+    <button class="settings-btn-sm" onclick="openNameModal()">✏️ 改名字</button>
+  </div>
+  <div class="settings-info">数据保存在本地，换手机需要导出备份~</div>
+</div>
+
+<div class="main">
+  <div id="page-home" class="page"><div id="home-content"></div></div>
+  <div id="page-tasks" class="page"><div id="tasks-content"></div></div>
+  <div id="page-weapons" class="page"><div id="weapons-content"></div></div>
+</div>
+
+<div class="nav">
+  <button class="nav-btn active" data-page="home" onclick="showPage('home')">
+    🏠<span>首页</span>
+  </button>
+  <button class="nav-btn" data-page="tasks" onclick="showPage('tasks')">
+    📋<span>任务</span>
+  </button>
+  <button class="nav-btn" data-page="weapons" onclick="showPage('weapons')">
+    ⚔️<span>武器</span>
+  </button>
+</div>
+
+<div id="name-modal" class="modal-overlay">
+  <div class="modal">
+    <h2>⚔️ 欢迎来到武器大陆！</h2>
+    <p>请输入你的名字，开启冒险之旅~</p>
+    <input type="text" id="name-input" placeholder="例如: 小明" maxlength="20" />
+    <button class="modal-btn" onclick="saveName()">🚀 开始冒险！</button>
+  </div>
+</div>
+
+<script src="game.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  initApp();
+  // Sound toggle UI sync
+  var soundOn = state && state.soundEnabled !== false;
+  document.getElementById("sound-toggle").classList.toggle("on", soundOn);
+});
+function toggleSound() {
+  var el = document.getElementById("sound-toggle");
+  state.soundEnabled = !state.soundEnabled;
+  el.classList.toggle("on", state.soundEnabled);
+  save();
+}
+document.addEventListener("keydown", function(e) {
+  if (e.target.id === "task-input" && e.key === "Enter") handleAddTask();
+  if (e.target.id === "name-input" && e.key === "Enter") saveName();
+});
+</script>
+</body>
+</html>
