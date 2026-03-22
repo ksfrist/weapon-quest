@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🔫 武器图鉴</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a1a2e;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:20px;max-width:600px;margin:0 auto;padding-bottom:60px}
+h1{text-align:center;font-size:22px;color:#ffd700;margin-bottom:20px;padding-top:10px}
+.tier{margin-bottom:28px}
+.tier-title{
+  font-size:15px;font-weight:700;padding:8px 14px;border-radius:10px;
+  margin-bottom:10px;display:flex;align-items:center;gap:8px;
+}
+.tier-title .emoji{font-size:20px}
+.tier-title .name{font-size:15px}
+.weapon-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(min-width:500px){.weapon-grid{grid-template-columns:repeat(5,1fr)}}
+.wp{
+  background:#1e1e3f;border:1px solid #3a3a6a;border-radius:12px;
+  padding:10px 4px;text-align:center;min-height:80px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+}
+.wp .e{font-size:26px}
+.wp .n{font-size:10px;color:#b0b0b0;line-height:1.3}
+.wp .lv{font-size:9px;color:#666}
+.wp.all .e{font-size:26px}
+.wp.all .n{color:#e0e0e0}
+.wp.locked .e{font-size:20px;opacity:0.4}
+.wp.locked .n{color:#555}
+.wp.locked .lv{color:#444}
+.wp:nth-child(10n+1){border-color:rgba(157,78,221,0.4)}
+.legend{
+  position:fixed;bottom:0;left:0;right:0;background:#16213e;
+  border-top:1px solid #3a3a6a;padding:10px 20px;
+  display:flex;justify-content:center;gap:20px;font-size:12px;color:#b0b0b0;
+  max-width:600px;margin:0 auto;
+}
+.legend span{display:flex;align-items:center;gap:4px}
+</style>
+</head>
+<body>
+<h1>⚔️ 武器收集大作战 · 完整图鉴</h1>
+<div id="gallery"></div>
+<div class="legend">
+  <span>🔫 起始之枪</span><span>⚡ 能量之枪</span><span>🔥 烈焰之枪</span><span>❄️ 冰霜之枪</span><span>💥 激光之枪</span>
+</div>
+<script>
+var WEAPONS=[
+{lv:1,n:"玩具水枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
+{lv:2,n:"小弹弓枪",e:"🏹",t:1,tn:"起始之枪",c:"#6b7280"},
+{lv:3,n:"橡皮筋枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
+{lv:4,n:"软弹枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
+{lv:5,n:"木制手枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
+{lv:6,n:"塑料步枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
+{lv:7,n:"弹簧手枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
+{lv:8,n:"水弹枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
+{lv:9,n:"儿童猎枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
+{lv:10,n:"泡沫冲锋枪",e:"🔫",t:1,tn:"起始之枪",c:"#6b7280"},
+{lv:11,n:"电动冲锋枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
+{lv:12,n:"加特林玩具枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
+{lv:13,n:"电光枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
+{lv:14,n:"电磁步枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
+{lv:15,n:"闪电冲锋枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
+{lv:16,n:"能量光枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
+{lv:17,n:"电弧手枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
+{lv:18,n:"特斯拉枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
+{lv:19,n:"脉冲冲锋枪",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
+{lv:20,n:"闪电之锤",e:"⚡",t:2,tn:"能量之枪",c:"#fbbf24"},
+{lv:21,n:"火焰喷射器",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
+{lv:22,n:"燃烧弹枪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
+{lv:23,n:"烈焰步枪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
+{lv:24,n:"火神枪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
+{lv:25,n:"熔岩冲锋枪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
+{lv:26,n:"烈焰之爪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
+{lv:27,n:"红莲手枪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
+{lv:28,n:"火焰风暴枪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
+{lv:29,n:"爆炎步枪",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
+{lv:30,n:"焚天之怒",e:"🔥",t:3,tn:"烈焰之枪",c:"#ef4444"},
+{lv:31,n:"冰冻射线枪",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
+{lv:32,n:"霜寒冲锋枪",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
+{lv:33,n:"冰晶步枪",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
+{lv:34,n:"雪崩之枪",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
+{lv:35,n:"寒冰光枪",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
+{lv:36,n:"极地猎枪",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
+{lv:37,n:"冰封射线",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
+{lv:38,n:"北极风暴枪",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
+{lv:39,n:"玄冰之矛",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
+{lv:40,n:"绝对零度",e:"❄",t:4,tn:"冰霜之枪",c:"#38bdf8"},
+{lv:41,n:"激光手枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
+{lv:42,n:"激光步枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
+{lv:43,n:"光束冲锋枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
+{lv:44,n:"量子光枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
+{lv:45,n:"等离子步枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
+{lv:46,n:"光子手枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
+{lv:47,n:"射线猎枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
+{lv:48,n:"光棱冲锋枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
+{lv:49,n:"星际光枪",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
+{lv:50,n:"神光裁决",e:"💥",t:5,tn:"激光之枪",c:"#a855f7"},
+{lv:51,n:"暗影手枪",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
+{lv:52,n:"夜幕冲锋枪",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
+{lv:53,n:"幽灵步枪",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
+{lv:54,n:"暗夜猎手",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
+{lv:55,n:"虚空之枪",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
+{lv:56,n:"冥王射线",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
+{lv:57,n:"暗物质枪",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
+{lv:58,n:"幽冥冲锋枪",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
+{lv:59,n:"深渊猎手",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
+{lv:60,n:"暗夜裁决",e:"🌑",t:6,tn:"暗黑之枪",c:"#4b5563"},
+{lv:61,n:"圣光手枪",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
+{lv:62,n:"天使之羽枪",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
+{lv:63,n:"神圣裁决",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
+{lv:64,n:"光之子步枪",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
+{lv:65,n:"天使长之枪",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
+{lv:66,n:"圣灵冲锋枪",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
+{lv:67,n:"神圣之光",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
+{lv:68,n:"天使圣剑",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
+{lv:69,n:"创世之光",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
+{lv:70,n:"圣光裁决",e:"⭐",t:7,tn:"神圣之枪",c:"#fcd34d"},
+{lv:71,n:"星际手枪",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
+{lv:72,n:"银河步枪",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
+{lv:73,n:"彗星冲锋枪",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
+{lv:74,n:"黑洞射线枪",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
+{lv:75,n:"星云光枪",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
+{lv:76,n:"宇宙猎手",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
+{lv:77,n:"星际风暴",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
+{lv:78,n:"银河守护者",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
+{lv:79,n:"宇宙之心",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
+{lv:80,n:"银河裁决",e:"🌌",t:8,tn:"宇宙之枪",c:"#818cf8"},
+{lv:81,n:"量子手枪",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
+{lv:82,n:"全息步枪",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
+{lv:83,n:"时空猎枪",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
+{lv:84,n:"维度冲锋枪",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
+{lv:85,n:"平行光枪",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
+{lv:86,n:"未来射线",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
+{lv:87,n:"永恒之枪",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
+{lv:88,n:"时空领主",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
+{lv:89,n:"多元宇宙枪",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
+{lv:90,n:"维度裁决",e:"💎",t:9,tn:"终极之枪",c:"#06b6d4"},
+{lv:91,n:"起源之枪",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
+{lv:92,n:"原初之光",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
+{lv:93,n:"万物之枪",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
+{lv:94,n:"永恒星杖",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
+{lv:95,n:"宇宙法则枪",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
+{lv:96,n:"时间领主",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
+{lv:97,n:"命运裁决",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
+{lv:98,n:"天道之枪",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
+{lv:99,n:"万物归一",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
+{lv:100,n:"创世神枪",e:"👑",t:10,tn:"创世之枪",c:"#f97316"},
+];
+var TIERS=[
+{t:1,n:"起始之枪",e:"🔫",c:"#6b7280"},
+{t:2,n:"能量之枪",e:"⚡",c:"#fbbf24"},
+{t:3,n:"烈焰之枪",e:"🔥",c:"#ef4444"},
+{t:4,n:"冰霜之枪",e:"❄",c:"#38bdf8"},
+{t:5,n:"激光之枪",e:"💥",c:"#a855f7"},
+{t:6,n:"暗黑之枪",e:"🌑",c:"#4b5563"},
+{t:7,n:"神圣之枪",e:"⭐",c:"#fcd34d"},
+{t:8,n:"宇宙之枪",e:"🌌",c:"#818cf8"},
+{t:9,n:"终极之枪",e:"💎",c:"#06b6d4"},
+{t:10,n:"创世之枪",e:"👑",c:"#f97316"},
+];
+var html='';
+TIERS.forEach(function(tier){
+  var wps=WEAPONS.filter(function(w){return w.t===tier.t;});
+  html+='<div class="tier">';
+  html+='<div class="tier-title" style="background:'+tier.c+'22;border-left:4px solid '+tier.c+';color:'+tier.c+'">';
+  html+='<span class="emoji">'+tier.e+'</span><span class="name">'+tier.n+'（'+wps[0].lv+' - '+wps[wps.length-1].lv+'级，共'+wps.length+'把）</span>';
+  html+='</div>';
+  html+='<div class="weapon-grid">';
+  wps.forEach(function(w){
+    html+='<div class="wp all">';
+    html+='<div class="e">'+w.e+'</div>';
+    html+='<div class="n">'+w.n+'</div>';
+    html+='<div class="lv">Lv.'+w.lv+'</div>';
+    html+='</div>';
+  });
+  html+='</div></div>';
+});
+document.getElementById('gallery').innerHTML=html;
+</script>
+</body>
+</html>
