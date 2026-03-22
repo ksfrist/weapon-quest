@@ -1,0 +1,8 @@
+name = "weapon-quest-api"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+account_id = "903e758019449ff5b6d2029d8f182d29"
+
+[[kv_namespaces]]
+binding = "WEAPON_QUEST_KV"
+id = "96777ae880d94a8a9984a7f4a02684be"
