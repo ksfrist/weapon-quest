@@ -8,168 +8,172 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#1a1a2e;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:12px;max-width:640px;margin:0 auto;padding-bottom:60px}
 h1{text-align:center;font-size:18px;color:#ffd700;margin:10px 0 14px}
-.tier{margin-bottom:22px}
-.tier-hd{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;margin-bottom:10px;font-size:13px;font-weight:700}
-.tier-ic{font-size:20px}
-.tier-rng{font-size:10px;opacity:0.7;margin-left:auto;font-weight:400}
-.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+h2{text-align:center;font-size:11px;color:#666;margin-bottom:14px;font-weight:400}
+
+.era{margin-bottom:24px}
+.era-title{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 14px;border-radius:10px;margin-bottom:12px;
+  font-size:13px;font-weight:700;
+}
+.era-icon{font-size:18px}
+.era-name{flex:1}
+.era-count{font-size:10px;opacity:0.7;font-weight:400}
+
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+@media(min-width:480px){.grid{grid-template-columns:repeat(5,1fr)}}
+
 .card{
-  background:#1e1e3f;border-radius:12px;padding:6px 3px;
-  text-align:center;min-height:100px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  background:#1e1e3f;border-radius:14px;padding:10px 4px;
+  text-align:center;min-height:110px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
   position:relative;overflow:hidden;
-  transition:transform 0.15s;
+  transition:transform 0.15s;cursor:default;
 }
 .card:active{transform:scale(0.95)}
 
-/* Top color bar per tier */
-.t1 .card{border-top:3px solid #6b7280}
-.t2 .card{border-top:3px solid #d97706}
-.t3 .card{border-top:3px solid #dc2626}
-.t4 .card{border-top:3px solid #0ea5e9}
-.t5 .card{border-top:3px solid #a855f7}
-.t6 .card{border-top:3px solid #4b5563}
-.t7 .card{border-top:3px solid #f59e0b}
-.t8 .card{border-top:3px solid #6366f1}
-.t9 .card{border-top:3px solid #06b6d4}
-.t10 .card{border-top:3px solid #ea580c}
-
-/* Background gradient per tier */
-.t1 .card{background:linear-gradient(180deg,#1e1e3f 70%,#2d3748 100%)}
-.t2 .card{background:linear-gradient(180deg,#1e1e3f 70%,#29200a 100%)}
-.t3 .card{background:linear-gradient(180deg,#1e1e3f 70%,#2a0f0f 100%)}
-.t4 .card{background:linear-gradient(180deg,#1e1e3f 70%,#0a1f2a 100%)}
-.t5 .card{background:linear-gradient(180deg,#1e1e3f 70%,#1a0a2a 100%)}
-.t6 .card{background:linear-gradient(180deg,#1e1e3f 70%,#0a0a0a 100%)}
-.t7 .card{background:linear-gradient(180deg,#1e1e3f 70%,#2a1f00 100%)}
-.t8 .card{background:linear-gradient(180deg,#1e1e3f 70%,#0f0a2a 100%)}
-.t9 .card{background:linear-gradient(180deg,#1e1e3f 70%,#0a1f2a 100%)}
-.t10 .card{background:linear-gradient(180deg,#1e1e3f 70%,#2a1000 100%)}
-
-/* Icon row */
-.icon-row{display:flex;align-items:center;justify-content:center;gap:1px;font-size:16px;line-height:1}
-.tier-emoji{font-size:18px}
-.weapon-emoji{font-size:14px}
-
-/* Number */
-.weapon-num{
-  font-size:22px;font-weight:900;line-height:1;
-  font-family:"Arial Black",Arial,sans-serif;
+/* Top colored bar */
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  border-radius:14px 14px 0 0;
 }
-.t1 .weapon-num{color:#9ca3af}
-.t2 .weapon-num{color:#fbbf24}
-.t3 .weapon-num{color:#f87171}
-.t4 .weapon-num{color:#38bdf8}
-.t5 .weapon-num{color:#c084fc}
-.t6 .weapon-num{color:#6b7280}
-.t7 .weapon-num{color:#fcd34d}
-.t8 .weapon-num{color:#a5b4fc}
-.t9 .weapon-num{color:#67e8f9}
-.t10 .weapon-num{color:#fb923c}
 
-/* Stars */
-.stars{font-size:9px;letter-spacing:1px;color:#ffd700}
+.w-icon{font-size:28px;line-height:1;margin-bottom:2px}
 
-/* Name */
-.weapon-name{font-size:7px;color:#888;line-height:1.3;max-width:100%;word-break:break-all;padding:0 2px}
+.w-name{font-size:9px;color:#aaa;line-height:1.3;max-width:100%;word-break:break-all;padding:0 2px}
 
-/* Rarity badge */
-.rarity{
+.w-lv{font-size:8px;color:#555;margin-top:auto;font-weight:700;letter-spacing:1px}
+
+.w-desc{font-size:7px;color:#555;margin-top:1px;font-style:italic}
+
+.tier-badge{
   position:absolute;top:4px;right:4px;
-  font-size:8px;padding:1px 3px;border-radius:3px;font-weight:700;
+  font-size:7px;padding:1px 4px;border-radius:4px;
+  font-weight:700;letter-spacing:0.5px;
 }
-.t1 .rarity{background:#4b5563;color:#fff}
-.t2 .rarity{background:#92400e;color:#fef3c7}
-.t3 .rarity{background:#991b1b;color:#fecaca}
-.t4 .rarity{background:#0369a1;color:#bae6fd}
-.t5 .rarity{background:#7e22ce;color:#f3e8ff}
-.t6 .rarity{background:#1f2937;color:#9ca3af}
-.t7 .rarity{background:#b45309;color:#fef3c7}
-.t8 .rarity{background:#4338ca;color:#e0e7ff}
-.t9 .rarity{background:#0e7490;color:#cffafe}
-.t10 .rarity{background:#9a3412;color:#fed7aa}
 
-.bar{position:fixed;bottom:0;left:0;right:0;background:#16213e;border-top:1px solid #3a3a6a;padding:8px 16px;display:flex;justify-content:center;gap:8px;font-size:10px;color:#777;max-width:640px;margin:0 auto;flex-wrap:wrap}
+/* Tier colors */
+.c1::before{background:linear-gradient(90deg,#8B4513,#D2691E,#8B4513)}.c1 .tier-badge{background:#8B4513;color:#fff}
+.c2::before{background:linear-gradient(90deg,#CD7F32,#DAA520,#CD7F32)}.c2 .tier-badge{background:#CD7F32;color:#fff}
+.c3::before{background:linear-gradient(90deg,#6b7280,#9ca3af,#6b7280)}.c3 .tier-badge{background:#6b7280;color:#fff}
+.c4::before{background:linear-gradient(90deg,#b87333,#CD853F,#b87333)}.c4 .tier-badge{background:#b87333;color:#fff}
+.c5::before{background:linear-gradient(90deg,#2c1810,#5c3d2e,#2c1810)}.c5 .tier-badge{background:#5c3d2e;color:#d4a574}
+.c6::before{background:linear-gradient(90deg,#1a1a2e,#2a2a4e,#1a1a2e)}.c6 .tier-badge{background:#1a1a2e;color:#666;border:1px solid #444}
+.c7::before{background:linear-gradient(90deg,#d97706,#fbbf24,#d97706)}.c7 .tier-badge{background:#d97706;color:#fff}
+.c8::before{background:linear-gradient(90deg,#b91c1c,#ef4444,#b91c1c)}.c8 .tier-badge{background:#b91c1c;color:#fff}
+.c9::before{background:linear-gradient(90deg,#1e40af,#3b82f6,#1e40af)}.c9 .tier-badge{background:#1e40af;color:#fff}
+.c10::before{background:linear-gradient(90deg,#047857,#10b981,#047857)}.c10 .tier-badge{background:#047857;color:#fff}
+.c11::before{background:linear-gradient(90deg,#0f172a,#1e3a5f,#0f172a)}.c11 .tier-badge{background:#0f172a;color:#94a3b8;border:1px solid #334155}
+.c12::before{background:linear-gradient(90deg,#dc2626,#f97316,#dc2626)}.c12 .tier-badge{background:#dc2626;color:#fff}
+.c13::before{background:linear-gradient(90deg,#7c3aed,#a855f7,#7c3aed)}.c13 .tier-badge{background:#7c3aed;color:#fff}
+.c14::before{background:linear-gradient(90deg,#0ea5e9,#22d3ee,#0ea5e9)}.c14 .tier-badge{background:#0284c7;color:#fff}
+.c15::before{background:linear-gradient(90deg,#6366f1,#818cf8,#6366f1)}.c15 .tier-badge{background:#6366f1;color:#fff}
+.c16::before{background:linear-gradient(90deg,#a855f7,#c084fc,#a855f7)}.c16 .tier-badge{background:#9333ea;color:#fff}
+.c17::before{background:linear-gradient(90deg,#ec4899,#f472b6,#ec4899)}.c17 .tier-badge{background:#ec4899;color:#fff}
+.c18::before{background:linear-gradient(90deg,#f59e0b,#fcd34d,#f59e0b)}.c18 .tier-badge{background:#d97706;color:#fff}
+.c19::before{background:linear-gradient(90deg,#030712,#1f2937,#030712)}.c19 .tier-badge{background:#030712;color:#6b7280;border:1px solid #374151}
+.c20::before{background:linear-gradient(90deg,#ea580c,#fb923c,#fef3c7)}.c20 .tier-badge{background:#ea580c;color:#fff}
+
+.bar{position:fixed;bottom:0;left:0;right:0;background:#16213e;border-top:1px solid #3a3a6a;padding:8px 16px;display:flex;justify-content:center;gap:6px;font-size:10px;color:#777;max-width:640px;margin:0 auto;flex-wrap:wrap}
 </style>
 </head>
 <body>
 <h1>武器收集大作战 · 完整图鉴</h1>
+<h2>冷兵器 → 热兵器 → 科幻武器进化史</h2>
 <div id="app"></div>
 <div class="bar">
-  <span>🔫起始</span><span>⚡能量</span><span>🔥烈焰</span><span>❄冰霜</span><span>💥激光</span><span>🌑暗黑</span><span>⭐神圣</span><span>🌌宇宙</span><span>💎终极</span><span>👑创世</span>
+  <span>🪵冷兵器</span><span>🔫早期火器</span><span>💣现代武器</span><span>⚡能量武器</span><span>🌌未来科技</span>
 </div>
 <script>
-var TIERS=[
-  {t:1,n:"起始之枪",e:"🔫",c:"#6b7280"},
-  {t:2,n:"能量之枪",e:"⚡",c:"#d97706"},
-  {t:3,n:"烈焰之枪",e:"🔥",c:"#dc2626"},
-  {t:4,n:"冰霜之枪",e:"❄",c:"#0ea5e9"},
-  {t:5,n:"激光之枪",e:"💥",c:"#a855f7"},
-  {t:6,n:"暗黑之枪",e:"🌑",c:"#374151"},
-  {t:7,n:"神圣之枪",e:"⭐",c:"#f59e0b"},
-  {t:8,n:"宇宙之枪",e:"🌌",c:"#6366f1"},
-  {t:9,n:"终极之枪",e:"💎",c:"#06b6d4"},
-  {t:10,n:"创世之枪",e:"👑",c:"#ea580c"},
+// ================================================================
+// 20阶武器进化体系
+// ================================================================
+var WEAPONS = [
+  // ── 冷兵器时代 ─────────────────────────────────────
+  {lv:1,  n:"木棍",         e:"🥊",  d:"原始武器",           tier:"c1"},
+  {lv:2,  n:"石斧",         e:"🪓",  d:"石器时代",           tier:"c1"},
+  {lv:3,  n:"青铜剑",        e:"⚔️", d:"青铜文明",           tier:"c2"},
+  {lv:4,  n:"铁剑",         e:"🗡️", d:"铁器时代",           tier:"c3"},
+  {lv:5,  n:"钢刀",         e:"🔪", d:"锻造技艺",           tier:"c4"},
+
+  // ── 火器时代 ─────────────────────────────────────
+  {lv:6,  n:"火绳枪",        e:"🔫", d:"早期火器",           tier:"c5"},
+  {lv:7,  n:"左轮手枪",      e:"🧭", d:"转轮击发",           tier:"c6"},
+  {lv:8,  n:"步枪",         e:"🎯", d:"线膛武器",           tier:"c7"},
+  {lv:9,  n:"冲锋枪",       e:"💨", d:"连发火力",           tier:"c8"},
+  {lv:10, n:"狙击枪",        e:"🔭", d:"精确打击",           tier:"c9"},
+
+  // ── 重型武器 ─────────────────────────────────────
+  {lv:11, n:"加特林机枪",    e:"⚙️", d:"六管火力",           tier:"c10"},
+  {lv:12, n:"火箭筒",        e:"🚀", d:"破甲利器",           tier:"c11"},
+  {lv:13, n:"榴弹炮",       e:"💣", d:"面杀伤",             tier:"c12"},
+  {lv:14, n:"主战坦克炮",    e:"🛡️", d:"陆战之王",           tier:"c10"},
+
+  // ── 能量武器 ─────────────────────────────────────
+  {lv:15, n:"激光枪",        e:"⚡", d:"光束武器",           tier:"c13"},
+  {lv:16, n:"电磁炮",        e:"🔌", d:"磁轨加速",           tier:"c14"},
+  {lv:17, n:"等离子炮",      e:"💥", d:"第四态武器",         tier:"c15"},
+  {lv:18, n:"冷冻射线",      e:"❄",  d:"绝对零度",           tier:"c16"},
+
+  // ── 未来科技 ─────────────────────────────────────
+  {lv:19, n:"量子炮",        e:"🔮", d:"量子纠缠弹",         tier:"c17"},
+  {lv:20, n:"星际舰炮",      e:"🌌", d:"跨维度打击",         tier:"c18"},
 ];
 
-// 武器类型图标池 - 60种不同图标组合
-var WEAPON_ICONS=[
-  "🔫","🏹","💣","🎯","🗡️","⚔️","🔪","🪃","🪄","🪃",
-  "⚡","🔋","💡","✨","🌟","⭐","💫","🌩️","⚡","🔱",
-  "🔥","💥","🌋","🌪️","🌈","💎","🔮","🧿","📿","🏆",
-  "❄","🌨️","💠","🔷","🔵","💧","🌊","🧊","⚗️","🔬",
-  "🌌","🌠","☄️","🪐","🌍","🚀","🛸","⭐","🌙","☀️",
-  "👑","🏅","🎖️","🛡️","🔱","⚱️","🏺","📜","🔮","💠"
+// 每个武器拥有碎片数量（集齐解锁下一把）
+var FRAGS=[0,10,20,30,40,50,60,70,80,90,100,120,140,160,180,200,230,260,300,350];
+
+var ERA_NAMES={
+  cold:{title:"冷兵器时代",icon:"🪵",color:"#8B4513"},
+  fire:{title:"早期火器",icon:"🔫",color:"#5c3d2e"},
+  heavy:{title:"重型武器",icon:"💣",color:"#b91c1c"},
+  energy:{title:"能量武器",icon:"⚡",color:"#7c3aed"},
+  future:{title:"未来科技",icon:"🌌",color:"#6366f1"},
+};
+
+var ERA_MAP=[
+  {era:"cold",  from:1,  to:5},
+  {era:"fire",   from:6,  to:10},
+  {era:"heavy",  from:11, to:14},
+  {era:"energy", from:15, to:18},
+  {era:"future", from:19, to:20},
 ];
 
-var NAMES=[
-  ["玩具水枪","小弹弓枪","橡皮筋枪","软弹枪","木制手枪","塑料步枪","弹簧手枪","水弹枪","儿童猎枪","泡沫冲锋枪"],
-  ["电动冲锋枪","加特林玩具枪","电光枪","电磁步枪","闪电冲锋枪","能量光枪","电弧手枪","特斯拉枪","脉冲冲锋枪","闪电之锤"],
-  ["火焰喷射器","燃烧弹枪","烈焰步枪","火神枪","熔岩冲锋枪","烈焰之爪","红莲手枪","火焰风暴枪","爆炎步枪","焚天之怒"],
-  ["冰冻射线枪","霜寒冲锋枪","冰晶步枪","雪崩之枪","寒冰光枪","极地猎枪","冰封射线","北极风暴枪","玄冰之矛","绝对零度"],
-  ["激光手枪","激光步枪","光束冲锋枪","量子光枪","等离子步枪","光子手枪","射线猎枪","光棱冲锋枪","星际光枪","神光裁决"],
-  ["暗影手枪","夜幕冲锋枪","幽灵步枪","暗夜猎手","虚空之枪","冥王射线","暗物质枪","幽冥冲锋枪","深渊猎手","暗夜裁决"],
-  ["圣光手枪","天使之羽枪","神圣裁决","光之子步枪","天使长之枪","圣灵冲锋枪","神圣之光","天使圣剑","创世之光","圣光裁决"],
-  ["星际手枪","银河步枪","彗星冲锋枪","黑洞射线枪","星云光枪","宇宙猎手","星际风暴","银河守护者","宇宙之心","银河裁决"],
-  ["量子手枪","全息步枪","时空猎枪","维度冲锋枪","平行光枪","未来射线","永恒之枪","时空领主","多元宇宙枪","维度裁决"],
-  ["起源之枪","原初之光","万物之枪","永恒星杖","宇宙法则枪","时间领主","命运裁决","天道之枪","万物归一","创世神枪"],
-];
+function getEra(lv){
+  for(var i=0;i<ERA_MAP.length;i++){
+    if(lv>=ERA_MAP[i].from && lv<=ERA_MAP[i].to) return ERA_MAP[i].era;
+  }
+  return "future";
+}
 
-var html = "";
-TIERS.forEach(function(tier) {
-  html += '<div class="tier t' + tier.t + '">';
-  html += '<div class="tier-hd" style="background:' + tier.c + '22;border-left:3px solid ' + tier.c + ';color:' + tier.c + '">';
-  html += '<span class="tier-ic">' + tier.e + '</span>';
-  html += '<span>' + tier.n + '</span>';
-  html += '<span class="tier-rng">Lv.' + ((tier.t-1)*10+1) + '-' + (tier.t*10) + '</span>';
-  html += '</div>';
-  html += '<div class="grid">';
+var html='<div>';
+ERA_MAP.forEach(function(eraDef){
+  var era=ERA_NAMES[eraDef.era];
+  html+='<div class="era">';
+  html+='<div class="era-title" style="background:'+era.color+'22;border-left:3px solid '+era.color+';color:'+era.color+'">';
+  html+='<span class="era-icon">'+era.icon+'</span>';
+  html+='<span class="era-name">'+era.title+'</span>';
+  html+='<span class="era-count">Lv.'+eraDef.from+'-'+eraDef.to+'</span>';
+  html+='</div>';
+  html+='<div class="grid">';
 
-  for (var i = 0; i < 10; i++) {
-    var lv = (tier.t-1)*10 + i + 1;
-    var name = NAMES[tier.t-1][i];
-    // 每把枪的图标 = 等级图标 + 武器类型图标（唯一组合）
-    var weaponIcon = WEAPON_ICONS[(lv - 1) % WEAPON_ICONS.length];
-    var stars = "";
-    var starCount = Math.min(Math.ceil(lv / 20), 5);
-    for (var s = 0; s < starCount; s++) stars += "★";
-    var rarityText = starCount === 5 ? "传奇" : starCount === 4 ? "史诗" : starCount === 3 ? "稀有" : starCount === 2 ? "优秀" : "普通";
-
-    html += '<div class="card">';
-    html += '<span class="rarity">' + rarityText + '</span>';
-    html += '<div class="icon-row">';
-    html += '<span class="tier-emoji">' + tier.e + '</span>';
-    html += '<span class="weapon-emoji">' + weaponIcon + '</span>';
-    html += '</div>';
-    html += '<div class="weapon-num">' + lv + '</div>';
-    html += '<div class="stars">' + stars + '</div>';
-    html += '<div class="weapon-name">' + name + '</div>';
-    html += '</div>';
+  for(var i=0;i<WEAPONS.length;i++){
+    var w=WEAPONS[i];
+    if(w.lv<eraDef.from||w.lv>eraDef.to) continue;
+    var frags=FRAGS[w.lv]||0;
+    html+='<div class="card '+w.tier+'">';
+    html+='<div class="tier-badge">T'+w.lv+'</div>';
+    html+='<div class="w-icon">'+w.e+'</div>';
+    html+='<div class="w-name">'+w.n+'</div>';
+    html+='<div class="w-desc">'+w.d+'</div>';
+    html+='<div class="w-lv">'+frags+'碎解锁</div>';
+    html+='</div>';
   }
 
-  html += '</div></div>';
+  html+='</div></div>';
 });
-document.getElementById("app").innerHTML = html;
+html+='</div>';
+document.getElementById("app").innerHTML=html;
 </script>
 </body>
 </html>
